@@ -1,6 +1,7 @@
 import express, { Express, Request, Response , Application } from 'express';
 import * as dotenv from "dotenv";
 import cors from "cors";
+import querystring from "querystring";
 
 //For env File 
 dotenv.config();
@@ -17,61 +18,52 @@ app.use(express.json());
 app.use(express.urlencoded({extended : true}));
 app.use(cors());
 
-const client_id = process.env.CLIENT_ID as string;
-const redirect_uri = process.env.REDIRECT_URI as string;
-const client_secret = process.env.CLIENT_SECRET as string;
-const generateRandomString = (length: number) => {
-  const possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-  const values = crypto.getRandomValues(new Uint8Array(length));
-  return values.reduce((acc, x) => acc + possible[x % possible.length], "");
-}
-
 app.get('/', (req: Request, res: Response) => {
   res.send('Welcome to Express & TypeScript Server');
 });
 
 app.get('/login', (req, res) => {
-  const state = generateRandomString(16);
-  const scope = 'user-read-private user-read-email user-top-read';
-  const params = {
-    response_type: 'code',
-    client_id,
-    scope,
-    redirect_uri,
-    state
-  }
-  const URLParams = new URLSearchParams(params);
+  const scope =
+    `user-modify-playback-state
+    user-read-playback-state
+    user-read-currently-playing
+    user-library-modify
+    user-library-read
+    user-top-read
+    playlist-read-private
+    playlist-modify-public`;
+
   res.redirect('https://accounts.spotify.com/authorize?' +
-    URLParams.toString());
+    querystring.stringify({
+      response_type: 'code',
+      client_id: process.env.CLIENT_ID,
+      scope: scope,
+      redirect_uri: process.env.REDIRECT_URI
+    })
+  );
 });
 
-app.get('/callback', function(req, res) {
+app.get('/callback', async function(req, res) {
+  const params = new URLSearchParams();
+  params.append('grant_type', 'authorization_code');
+  params.append('code', req.query.code as string);
+  params.append('redirect_uri', process.env.REDIRECT_URI as string);
+  params.append('client_id', process.env.CLIENT_ID as string);
+  params.append('client_secret', process.env.CLIENT_SECRET as string);
 
-  var code = req.query.code || null;
-  var state = req.query.state || null;
-
-  if (state === null) {
-    const params = {
-      error: 'state_mismatch'
-    }
-    const URLParams = new URLSearchParams(params);
-    res.redirect('/#' +
-      URLParams.toString());
-  } else {
-    var authOptions = {
-      url: 'https://accounts.spotify.com/api/token',
-      form: {
-        code: code,
-        redirect_uri,
-        grant_type: 'authorization_code'
-      },
-      headers: {
-        'content-type': 'application/x-www-form-urlencoded',
-        'Authorization': 'Basic ' + (new Buffer.from(client_id + ':' + client_secret).toString('base64'))
-      },
-      json: true
-    };
-  }
+  await fetch('https://accounts.spotify.com/api/token', {
+    method: 'POST',
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+      "Accept": "application/json"
+    },
+    body: params.toString()
+  })
+  .then(response => response.json())
+  .then(data => {
+    const query = new URLSearchParams(data).toString();
+    res.redirect(`${process.env.CLIENT_REDIRECTURI}?${query}`);
+  });
 });
 
 app.listen(PORT, () => {
