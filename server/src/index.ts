@@ -18,9 +18,7 @@ app.use(express.json());
 app.use(express.urlencoded({extended : true}));
 app.use(cors());
 
-app.get('/', (req: Request, res: Response) => {
-  res.send('Welcome to Express & TypeScript Server');
-});
+let access_token: string | null = null;
 
 app.get('/login', (req, res) => {
   const scope =
@@ -61,10 +59,17 @@ app.get('/callback', async function(req, res) {
   })
   .then(response => response.json())
   .then(data => {
-    const query = new URLSearchParams(data).toString();
-    res.redirect(`${process.env.CLIENT_REDIRECTURI}?${query}`);
+    access_token = data.access_token;
+    res.redirect(`${process.env.CLIENT_REDIRECTURI}`);
   });
 });
+
+app.get('/token', (req, res) => {
+  res.json(
+    {
+      access_token
+    })
+})
 
 app.listen(PORT, () => {
   console.log(`Server is Fire at http://localhost:${PORT}`);
