@@ -4,6 +4,7 @@ import GlobalStyle from './styles/global'
 import Profile from './Profile';
 import Home from './pages/Home';
 import Navbar from './components/Navbar';
+import SearchPage from './pages/Search';
 
 const App = () => {
   const [accessToken, setAccessToken] = useState<string>('');
@@ -26,6 +27,7 @@ const App = () => {
         <Routes>
           <Route path="/" element={<Home token={accessToken} />} />
           <Route path="/profile" element={<Profile token={accessToken} />} />
+          <Route path='/search' element={<SearchPage token={accessToken} />} />
         </Routes>
       </BrowserRouter>
       {/* <a href="http://localhost:7000/login">Login</a> */}

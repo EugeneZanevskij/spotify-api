@@ -16,7 +16,8 @@ function Navbar() {
 
   const links = [
     { name: 'Home', path: '/' },
-    { name: 'Profile', path: '/profile' }
+    { name: 'Profile', path: '/profile' },
+    { name: 'Search', path: '/search' },
   ];
 
   return (
