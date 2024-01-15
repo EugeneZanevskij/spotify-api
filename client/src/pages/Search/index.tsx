@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Artist } from '../../types';
+import { Artist, ArtistsResponse } from '../../types';
 import { SearchPageWrapper, SearchForm, SearchInput, SearchButton, SearchResults, SearchResultItem, Text, BoldText, ImageContainer, Image } from './styles';
 
 
@@ -19,7 +19,7 @@ function SearchPage( {token} : {token: string} ) {
         'Authorization': `Bearer ${token}`
       }
     });
-    const data = await response.json();
+    const data : ArtistsResponse = await response.json();
     setArtists(data.artists.items);
   };
 
