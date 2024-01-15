@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import GlobalStyle from './styles/global'
 import Profile from './Profile';
 import Home from './Home';
-import Navbar from './Navbar';
+import Navbar from './components/Navbar';
 import './App.css';
 
 const App = () => {
@@ -21,6 +22,7 @@ const App = () => {
   return (
     <div>
       <BrowserRouter>
+        <GlobalStyle />
         <Navbar />
         <Routes>
           <Route path="/" element={<Home token={accessToken} />} />
