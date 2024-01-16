@@ -5,6 +5,7 @@ import Profile from './Profile';
 import Home from './pages/Home';
 import Navbar from './components/Navbar';
 import SearchPage from './pages/Search';
+import TopTracksPage from './pages/Top/Tracks';
 
 const App = () => {
   const [accessToken, setAccessToken] = useState<string>('');
@@ -28,6 +29,9 @@ const App = () => {
           <Route path="/" element={<Home token={accessToken} />} />
           <Route path="/profile" element={<Profile token={accessToken} />} />
           <Route path='/search' element={<SearchPage token={accessToken} />} />
+          <Route path='/top'>
+            <Route path='tracks' element={<TopTracksPage token={accessToken} />} />
+          </Route>
         </Routes>
       </BrowserRouter>
       {/* <a href="http://localhost:7000/login">Login</a> */}

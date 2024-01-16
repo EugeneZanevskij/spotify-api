@@ -3,7 +3,6 @@ import { UserProfile } from './types';
 
 const Profile = ({ token }: { token: string }) => {
   const [profile, setProfile] = useState<UserProfile>();
-  const [tracks, setTracks] = useState<any[]>([]);
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -20,26 +19,7 @@ const Profile = ({ token }: { token: string }) => {
       }
     };
 
-    async function fetchWebApi(endpoint: string, method: string, body?: object) {
-      const res = await fetch(`https://api.spotify.com/${endpoint}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        method,
-        body:JSON.stringify(body)
-      });
-      return await res.json();
-    }
-    
-    async function getTopTracks(){
-      // Endpoint reference : https://developer.spotify.com/documentation/web-api/reference/get-users-top-artists-and-tracks
-      return (await fetchWebApi(
-        'v1/me/top/tracks?time_range=long_term&limit=5', 'GET'
-      )).items;
-    }
-
     fetchProfile();
-    getTopTracks().then(data => setTracks(data));
   }, []);
 
   return (
@@ -49,10 +29,6 @@ const Profile = ({ token }: { token: string }) => {
         <div>
           <img src={profile.images[0].url} alt={profile.display_name} />
           <p>Name: {profile.display_name}</p>
-          {tracks?.map(track =>
-      <p>{track.name} by {track.artists.map(artist => artist.name)}</p>
-  )}
-          {/* Render other profile data as needed */}
         </div>
       ) : (
         <p>Loading profile...</p>

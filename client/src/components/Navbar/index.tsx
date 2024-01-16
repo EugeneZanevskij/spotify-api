@@ -18,6 +18,7 @@ function Navbar() {
     { name: 'Home', path: '/' },
     { name: 'Profile', path: '/profile' },
     { name: 'Search', path: '/search' },
+    { name: 'Top Tracks', path: '/top/tracks' },
   ];
 
   return (
