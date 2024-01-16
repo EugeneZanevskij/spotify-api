@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { Album, Artist, Track } from '../../types';
 import { SearchPageWrapper, SearchForm, SearchInput, SearchButton, SearchResults, SearchResultItem, Text, BoldText, ImageContainer, Image } from './styles';
+import ArtistItem from '../../components/ArtistItem';
 
 
 function SearchPage( {token} : {token: string} ) {
-  const [searchType, setSearchType] = useState< "album"|"artist"|"track">('track');
+  const [searchType, setSearchType] = useState< "album"|"artist"|"track">('artist');
   const [searchTerm, setSearchTerm] = useState('');
   const [artists, setArtists] = useState<Artist[]>([]);
   const [albums, setAlbums] = useState<Album[]>([]);
@@ -50,13 +51,7 @@ function SearchPage( {token} : {token: string} ) {
       </SearchForm>
       <SearchResults>
         {artists.map((artist: Artist) => (
-          <SearchResultItem key={artist.id}>
-            <Text>{artist.name}:</Text>
-            {artist.images[0] && 
-            <ImageContainer>
-              <Image src={artist.images[0].url} alt={artist.name} />
-            </ImageContainer>}
-          </SearchResultItem>
+          <ArtistItem key={artist.id} artist={artist} />
         ))}
       </SearchResults>
       <SearchResults>
