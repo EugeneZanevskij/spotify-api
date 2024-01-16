@@ -16,7 +16,9 @@ const ArtistItem: React.FC<{ artist: Artist, index?: number }> = ( { artist, ind
   return (
     <ArtistContainer>
       <BoldText fontSize='1.2em'>{index} {artist.name}</BoldText>
-      <Text>{getFollowers(artist.followers.total)}</Text>
+      {artist.followers.total ? 
+      <Text>{getFollowers(artist.followers.total)}</Text> :
+      <Text>Popularity: {artist.popularity}</Text>}
       <SpotifyLink url={artist.external_urls.spotify} />
       {artist.images[0] && 
       <ImageContainer>

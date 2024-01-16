@@ -24,7 +24,7 @@ const BoldText = styled(Text)`
 `;
 
 const ImageContainer = styled.div`
-    max-height: 13rem;
+    height: 13rem;
     display: flex;
     align-items: center;
     overflow: hidden;

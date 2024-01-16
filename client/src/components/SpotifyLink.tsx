@@ -12,7 +12,6 @@ const SpotifyIconLink = styled.a`
 
 const SpotifyLink = ({ url }: { url: string }) => (
   <SpotifyIconLink href={url} target="_blank" rel="noopener noreferrer">
-    {/* <SpotifyIcon src="spotify-icon.png" alt="Spotify" /> */}
     <FaSpotify size={24}/>
   </SpotifyIconLink>
 );
