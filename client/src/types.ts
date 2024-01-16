@@ -40,14 +40,55 @@ export interface Artist {
   uri: string;
 }
 
-export interface ArtistsResponse {
-  artists: {
-    href: string;
-    items: Artist[];
-    limit: number;
-    next: string | null;
-    offset: number;
-    previous: string | null;
-    total: number;
+export interface Album {
+  album_type: string;
+  total_tracks: number;
+  available_markets: string[];
+  external_urls: {
+    spotify: string;
   };
+  href: string;
+  id: string;
+  images: Image[];
+  name: string;
+  release_date: string;
+  release_date_precision: string;
+  type: string;
+  uri: string;
+  artists: SimplifiedArtistObject[];
+}
+
+export interface SimplifiedArtistObject {
+  external_urls: {
+    spotify: string;
+  };
+  href: string;
+  id: string;
+  name: string;
+  type: string;
+  uri: string;
+}
+
+export interface Track {
+  album: Album;
+  artists: Artist[];
+  available_markets: string[];
+  disc_number: number;
+  duration_ms: number;
+  explicit: boolean;
+  external_ids: {
+    isrc: string;
+  };
+  external_urls: {
+    spotify: string;
+  };
+  href: string;
+  id: string;
+  name: string;
+  popularity: number;
+  preview_url: string | null;
+  track_number: number;
+  type: string;
+  uri: string;
+  is_local: boolean;
 }

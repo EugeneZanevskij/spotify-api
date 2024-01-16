@@ -37,7 +37,6 @@ const SearchResults = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-around;
-  margin-top: 1rem;
   flex-wrap: wrap;
   gap: 1rem;
 `;
@@ -49,12 +48,13 @@ const SearchResultItem = styled.div`
   align-items: center;
   border: 1px solid #ccc;
   border-radius: 4px;
+  width: min-content;
+  text-align: center;
 `;
 
 const Text = styled(PageText)`
     color:${(props)=>props.color ? props.color :"#131A22" };
     font-size:${(props)=>props.fontSize ? props.fontSize :".9em" };
-    text-align:${(props)=>props.textAlign ? props.textAlign : "left" };
 `;
 
 const BoldText = styled(Text)`
