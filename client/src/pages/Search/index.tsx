@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Album, Artist, Track } from '../../types';
 import { SearchPageWrapper, ButtonContainer, StyledButton, SearchForm, SearchInput, SearchButton, SearchResults, SearchResultItem, Text, BoldText, ImageContainer, Image, SearchInputs } from './styles';
 import ArtistItem from '../../components/ArtistItem';
+import AlbumItem from '../../components/AlbumItem';
 
 
 function SearchPage( {token} : {token: string} ) {
@@ -77,14 +78,7 @@ function SearchPage( {token} : {token: string} ) {
       {albums &&
         <SearchResults>
           {albums.map((album: Album) => (
-            <SearchResultItem key={album.id}>
-              <Text>{album.name}:</Text>
-              <Text fontSize='.8em'>{album.artists[0].name}:</Text>
-              {album.images[0] && 
-              <ImageContainer>
-                <Image src={album.images[0].url} alt={album.name} />
-              </ImageContainer>}
-            </SearchResultItem>
+            <AlbumItem key={album.id} album={album} />
           ))}
         </SearchResults>
       }
