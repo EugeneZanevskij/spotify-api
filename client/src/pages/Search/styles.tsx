@@ -8,6 +8,27 @@ const SearchPageWrapper = styled.div`
   padding: 1.5rem;
 `;
 
+const ButtonContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+`;
+
+const StyledButton = styled.button`
+  background-color: #8abd81;
+  color: #333;
+  font-size: 1rem;
+  font-weight: bold;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 0.25rem;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #cbe669;
+  }
+`;
+
 const SearchForm = styled.form`
   display: flex;
   justify-content: center;
@@ -15,17 +36,17 @@ const SearchForm = styled.form`
 `;
 
 const SearchInput = styled.input`
-  padding: 10px;
-  font-size: 16px;
+  padding: 0.75rem;
+  font-size: 1rem;
 `;
 
 const SearchButton = styled.button`
-  padding: 10px 20px;
-  margin-left: 10px;
+  padding: 0.75rem 1.25rem;
+  margin-left: 1rem;
   background-color: #1db954;
   color: white;
   border: none;
-  border-radius: 4px;
+  border-radius: 0.25rem;
   cursor: pointer;
 
   &:hover {
@@ -47,7 +68,7 @@ const SearchResultItem = styled.div`
   flex-direction: column;
   align-items: center;
   border: 1px solid #ccc;
-  border-radius: 4px;
+  border-radius: 0.25rem;
   width: min-content;
   text-align: center;
 `;
@@ -72,4 +93,4 @@ const Image = styled.img`
     width: 13em;
 `
 
-export { SearchPageWrapper, SearchForm, SearchInput, SearchButton, SearchResults, SearchResultItem, Text, BoldText, ImageContainer, Image };
+export { SearchPageWrapper, ButtonContainer, StyledButton, SearchForm, SearchInput, SearchButton, SearchResults, SearchResultItem, Text, BoldText, ImageContainer, Image };

@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import { Album, Artist, Track } from '../../types';
-import { SearchPageWrapper, SearchForm, SearchInput, SearchButton, SearchResults, SearchResultItem, Text, BoldText, ImageContainer, Image } from './styles';
+import { SearchPageWrapper, ButtonContainer, StyledButton, SearchForm, SearchInput, SearchButton, SearchResults, SearchResultItem, Text, BoldText, ImageContainer, Image } from './styles';
 import ArtistItem from '../../components/ArtistItem';
 
 
 function SearchPage( {token} : {token: string} ) {
-  const [searchType, setSearchType] = useState< "album"|"artist"|"track">('artist');
+  const [searchType, setSearchType] = useState< "album"|"artist"|"track">('track');
   const [searchTerm, setSearchTerm] = useState('');
   const [artists, setArtists] = useState<Artist[]>([]);
   const [albums, setAlbums] = useState<Album[]>([]);
@@ -37,9 +37,18 @@ function SearchPage( {token} : {token: string} ) {
     }
   };
 
+  const handleSearchTypeChange = (type: "album" | "artist" | "track") => {
+    setSearchType(type);
+  };
+
   return (
     <SearchPageWrapper>
-      <BoldText fontSize='1.5em'>Spotify Search</BoldText>
+      <BoldText fontSize='1.25em'>Spotify Search for<BoldText color='#1DB954' fontSize='1.5em'>{searchType}</BoldText></BoldText>
+      <ButtonContainer>
+        <StyledButton onClick={() => handleSearchTypeChange('album')}>Albums</StyledButton>
+        <StyledButton onClick={() => handleSearchTypeChange('artist')}>Artists</StyledButton>
+        <StyledButton onClick={() => handleSearchTypeChange('track')}>Tracks</StyledButton>
+      </ButtonContainer>
       <SearchForm onSubmit={handleSearchSubmit}>
         <SearchInput
           type="text"
