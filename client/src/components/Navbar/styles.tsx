@@ -20,12 +20,14 @@ export const Logo = styled.img`
     }
 `;
 
-export const NavLogo = styled.div`
+export const NavLogo = styled(Link)`
   font-size: 2rem;
   font-weight: bold;
   display: flex;
   align-items: center;
   gap: .5rem;
+  text-decoration: none;
+  color: #000000;
 `;
 
 export const NavLinks = styled.ul<{ open: boolean }>`

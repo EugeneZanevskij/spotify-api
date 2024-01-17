@@ -24,7 +24,7 @@ function Navbar() {
 
   return (
     <NavbarContainer>
-      <NavLogo>
+      <NavLogo to="/">
         <Logo src={LogoImage} />
         SpotiStats
       </NavLogo>
