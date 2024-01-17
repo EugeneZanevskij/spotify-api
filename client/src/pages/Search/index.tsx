@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { Album, Artist, Track } from '../../types';
-import { SearchPageWrapper, ButtonContainer, StyledButton, SearchForm, SearchInput, SearchButton, SearchResults, SearchResultItem, Text, BoldText, ImageContainer, Image, SearchInputs } from './styles';
+import { SearchPageWrapper, ButtonContainer, StyledButton, SearchForm, SearchInput, SearchButton, SearchResults, BoldText, SearchInputs } from './styles';
 import ArtistItem from '../../components/ArtistItem';
 import AlbumItem from '../../components/AlbumItem';
+import TrackItem from '../../components/TrackItem';
 
 
 function SearchPage( {token} : {token: string} ) {
@@ -85,15 +86,7 @@ function SearchPage( {token} : {token: string} ) {
       {tracks &&
         <SearchResults>
           {tracks.map((track: Track) => (
-            <SearchResultItem key={track.id}>
-              <Text>{track.name}:</Text>
-              <Text>{track.album.name}:</Text>
-              <Text fontSize='.8em'>{track.album.artists[0].name}:</Text>
-              {track.album.images[0] && 
-              <ImageContainer>
-                <Image src={track.album.images[0].url} alt={track.album.name} />
-              </ImageContainer>}
-            </SearchResultItem>
+            <TrackItem key={track.id} track={track} />
           ))}
         </SearchResults>
       }

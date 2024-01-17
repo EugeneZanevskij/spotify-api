@@ -69,17 +69,6 @@ const SearchResults = styled.div`
   gap: 1rem;
 `;
 
-const SearchResultItem = styled.div`
-  padding: 0.5rem;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  border: 1px solid #ccc;
-  border-radius: 0.25rem;
-  width: min-content;
-  text-align: center;
-`;
-
 const Text = styled(PageText)`
     color:${(props)=>props.color ? props.color :"#131A22" };
     font-size:${(props)=>props.fontSize ? props.fontSize :".9em" };
@@ -90,14 +79,4 @@ const BoldText = styled(Text)`
     padding: .4em;
 `;
 
-const ImageContainer = styled.div`
-    height: 13em;
-    display: flex;
-    align-items: center;
-    overflow: hidden;
-`
-const Image = styled.img`
-    width: 13em;
-`
-
-export { SearchPageWrapper, ButtonContainer, StyledButton, SearchForm, SearchInputs, SearchInput, SearchButton, SearchResults, SearchResultItem, Text, BoldText, ImageContainer, Image };
+export { SearchPageWrapper, ButtonContainer, StyledButton, SearchForm, SearchInput, SearchButton, SearchResults, BoldText, SearchInputs };
