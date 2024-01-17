@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { Track } from '../types';
+import SpotifyLink from './SpotifyLink';
 
 const Button = styled.button`
   background-color: #007bff;
@@ -13,7 +14,8 @@ const Button = styled.button`
 `;
 
 const PlaylistButton: React.FC<{ tracks: Track[], token: string }> = ({ tracks, token }) => {
-  const [profileId, setProfileId] = useState<string>();
+  const [profileId, setProfileId] = useState<string>('');
+  const [playlistUrl, setPlaylistUrl] = useState<string>('');
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -49,6 +51,7 @@ const PlaylistButton: React.FC<{ tracks: Track[], token: string }> = ({ tracks, 
     });
     const data = await response.json();
     const playlistId = data.id;
+    setPlaylistUrl(data.external_urls.spotify);
     const playlistResponse = await fetch('https://api.spotify.com/v1/playlists/' + playlistId + '/tracks', {
       method: 'POST',
       body: JSON.stringify({ 'uris': tracks.map(track => track.uri) }),
@@ -60,7 +63,10 @@ const PlaylistButton: React.FC<{ tracks: Track[], token: string }> = ({ tracks, 
   };
 
   return (
+    <>
     <Button onClick={handleCreatePlaylist}>Create Playlist</Button>
+    {playlistUrl && <SpotifyLink url={playlistUrl} />}
+    </>
   );
 };
 
