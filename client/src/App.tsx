@@ -7,6 +7,7 @@ import Navbar from './components/Navbar';
 import SearchPage from './pages/Search';
 import TopTracksPage from './pages/Top/Tracks';
 import TopArtistsPage from './pages/Top/Artists';
+import Footer from './components/Footer';
 
 const App = () => {
   const [accessToken, setAccessToken] = useState<string>('');
@@ -35,6 +36,7 @@ const App = () => {
             <Route path='artists' element={<TopArtistsPage token={accessToken} />} />
           </Route>
         </Routes>
+        <Footer />
       </BrowserRouter>
       {/* <a href="http://localhost:7000/login">Login</a> */}
       {/* {accessToken && <Profile token={accessToken}/>} */}
