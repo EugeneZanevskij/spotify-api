@@ -3,6 +3,7 @@ import { useSearchParams } from 'react-router-dom';
 import { Track } from '../../../types';
 import { TopTracksContainer, TopTracksTitle, ButtonsContainer, TimeRangeButton, TopTrackItems } from './styles';
 import TopTrackItem from '../../../components/TopTrackItem';
+import PlaylistButton from '../../../components/PlaylistButton';
 
 const TopTracksPage = ({ token }: { token: string }) => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -60,6 +61,7 @@ const TopTracksPage = ({ token }: { token: string }) => {
           <TopTrackItem key={track.id} track={track} index={index} />
         ))}
       </TopTrackItems>
+      <PlaylistButton tracks={tracks} token={token} />
     </TopTracksContainer>
   );
 };
