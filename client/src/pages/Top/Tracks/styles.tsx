@@ -5,30 +5,13 @@ const TopTracksContainer = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  padding: 1.5rem;
 `;
 
 const TopTracksTitle = styled.h1`
   font-size: 24px;
   color: #333;
   margin-bottom: 16px;
-`;
-
-const TrackItem = styled.div`
-  display: flex;
-  align-items: center;
-  margin-bottom: 8px;
-`;
-
-const TrackImage = styled.img`
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  margin-right: 16px;
-`;
-
-const TrackName = styled.span`
-  font-size: 16px;
-  color: #333;
 `;
 
 const ButtonsContainer = styled.div`
@@ -44,4 +27,14 @@ const TimeRangeButton = styled.button<{ active: boolean }>`
   cursor: pointer;
 `;
 
-export { TopTracksContainer, TopTracksTitle, TrackItem, TrackImage, TrackName, ButtonsContainer, TimeRangeButton };
+const TopTrackItems = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-top: 1rem;
+  width: 100%;
+`;
+
+export { TopTracksContainer, TopTracksTitle, ButtonsContainer, TimeRangeButton, TopTrackItems };

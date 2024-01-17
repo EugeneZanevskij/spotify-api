@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { Track } from '../../../types';
-import { TopTracksContainer, TopTracksTitle, TrackItem, TrackImage, TrackName, ButtonsContainer, TimeRangeButton } from './styles';
+import { TopTracksContainer, TopTracksTitle, ButtonsContainer, TimeRangeButton, TopTrackItems } from './styles';
+import TopTrackItem from '../../../components/TopTrackItem';
 
 const TopTracksPage = ({ token }: { token: string }) => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -54,13 +55,11 @@ const TopTracksPage = ({ token }: { token: string }) => {
           </TimeRangeButton>
         ))}
       </ButtonsContainer>
-      {tracks.map((track, index) => (
-        <TrackItem key={track.id}>
-          <div>{index + 1}</div>
-          <TrackImage src={track.album.images[0].url} alt={track.album.name} />
-          <TrackName>{track.name}</TrackName>
-        </TrackItem>
-      ))}
+      <TopTrackItems>
+        {tracks.map((track, index) => (
+          <TopTrackItem key={track.id} track={track} index={index} />
+        ))}
+      </TopTrackItems>
     </TopTracksContainer>
   );
 };
