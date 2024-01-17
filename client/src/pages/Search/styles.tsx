@@ -31,8 +31,15 @@ const StyledButton = styled.button`
 
 const SearchForm = styled.form`
   display: flex;
+  flex-direction: column;
   justify-content: center;
   margin-block: 0.75rem;
+  gap: 0.75rem;
+`;
+
+const SearchInputs = styled.div`
+  display: flex;
+  gap: 1rem;
 `;
 
 const SearchInput = styled.input`
@@ -93,4 +100,4 @@ const Image = styled.img`
     width: 13em;
 `
 
-export { SearchPageWrapper, ButtonContainer, StyledButton, SearchForm, SearchInput, SearchButton, SearchResults, SearchResultItem, Text, BoldText, ImageContainer, Image };
+export { SearchPageWrapper, ButtonContainer, StyledButton, SearchForm, SearchInputs, SearchInput, SearchButton, SearchResults, SearchResultItem, Text, BoldText, ImageContainer, Image };

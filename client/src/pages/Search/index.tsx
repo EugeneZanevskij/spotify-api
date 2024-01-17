@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Album, Artist, Track } from '../../types';
-import { SearchPageWrapper, ButtonContainer, StyledButton, SearchForm, SearchInput, SearchButton, SearchResults, SearchResultItem, Text, BoldText, ImageContainer, Image } from './styles';
+import { SearchPageWrapper, ButtonContainer, StyledButton, SearchForm, SearchInput, SearchButton, SearchResults, SearchResultItem, Text, BoldText, ImageContainer, Image, SearchInputs } from './styles';
 import ArtistItem from '../../components/ArtistItem';
 
 
@@ -15,6 +15,12 @@ function SearchPage( {token} : {token: string} ) {
     setSearchTerm(event.target.value);
   };
 
+  const setArraysEmpty = () => {
+    setArtists([]);
+    setAlbums([]);
+    setTracks([]);
+  }
+
   const handleSearchSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
 
@@ -24,6 +30,7 @@ function SearchPage( {token} : {token: string} ) {
       }
     });
     const data = await response.json();
+    setArraysEmpty();
     switch (searchType) {
       case 'album':
         setAlbums(data.albums.items);
@@ -44,50 +51,58 @@ function SearchPage( {token} : {token: string} ) {
   return (
     <SearchPageWrapper>
       <BoldText fontSize='1.25em'>Spotify Search for<BoldText color='#1DB954' fontSize='1.5em'>{searchType}</BoldText></BoldText>
-      <ButtonContainer>
-        <StyledButton onClick={() => handleSearchTypeChange('album')}>Albums</StyledButton>
-        <StyledButton onClick={() => handleSearchTypeChange('artist')}>Artists</StyledButton>
-        <StyledButton onClick={() => handleSearchTypeChange('track')}>Tracks</StyledButton>
-      </ButtonContainer>
       <SearchForm onSubmit={handleSearchSubmit}>
-        <SearchInput
-          type="text"
-          value={searchTerm}
-          onChange={handleSearchInputChange}
-          placeholder="Search for an artist, album, or track"
-        />
-        <SearchButton type="submit">Search</SearchButton>
+        <ButtonContainer>
+          <StyledButton onClick={() => handleSearchTypeChange('album')}>Albums</StyledButton>
+          <StyledButton onClick={() => handleSearchTypeChange('artist')}>Artists</StyledButton>
+          <StyledButton onClick={() => handleSearchTypeChange('track')}>Tracks</StyledButton>
+        </ButtonContainer>
+        <SearchInputs>
+          <SearchInput
+            type="text"
+            value={searchTerm}
+            onChange={handleSearchInputChange}
+            placeholder="Search for an artist, album, or track"
+          />
+          <SearchButton type="submit">Search</SearchButton>
+        </SearchInputs>
       </SearchForm>
-      <SearchResults>
+      {artists &&
+        <SearchResults>
         {artists.map((artist: Artist) => (
           <ArtistItem key={artist.id} artist={artist} />
         ))}
       </SearchResults>
-      <SearchResults>
-        {albums.map((album: Album) => (
-          <SearchResultItem key={album.id}>
-            <Text>{album.name}:</Text>
-            <Text fontSize='.8em'>{album.artists[0].name}:</Text>
-            {album.images[0] && 
-            <ImageContainer>
-              <Image src={album.images[0].url} alt={album.name} />
-            </ImageContainer>}
-          </SearchResultItem>
-        ))}
-      </SearchResults>
-      <SearchResults>
-        {tracks.map((track: Track) => (
-          <SearchResultItem key={track.id}>
-            <Text>{track.name}:</Text>
-            <Text>{track.album.name}:</Text>
-            <Text fontSize='.8em'>{track.album.artists[0].name}:</Text>
-            {track.album.images[0] && 
-            <ImageContainer>
-              <Image src={track.album.images[0].url} alt={track.album.name} />
-            </ImageContainer>}
-          </SearchResultItem>
-        ))}
-      </SearchResults>
+      }
+      {albums &&
+        <SearchResults>
+          {albums.map((album: Album) => (
+            <SearchResultItem key={album.id}>
+              <Text>{album.name}:</Text>
+              <Text fontSize='.8em'>{album.artists[0].name}:</Text>
+              {album.images[0] && 
+              <ImageContainer>
+                <Image src={album.images[0].url} alt={album.name} />
+              </ImageContainer>}
+            </SearchResultItem>
+          ))}
+        </SearchResults>
+      }
+      {tracks &&
+        <SearchResults>
+          {tracks.map((track: Track) => (
+            <SearchResultItem key={track.id}>
+              <Text>{track.name}:</Text>
+              <Text>{track.album.name}:</Text>
+              <Text fontSize='.8em'>{track.album.artists[0].name}:</Text>
+              {track.album.images[0] && 
+              <ImageContainer>
+                <Image src={track.album.images[0].url} alt={track.album.name} />
+              </ImageContainer>}
+            </SearchResultItem>
+          ))}
+        </SearchResults>
+      }
     </SearchPageWrapper>
   );
 }
