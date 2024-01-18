@@ -71,6 +71,8 @@ app.get('/login', (req, res) => {
     user-library-modify
     user-library-read
     user-top-read
+    user-read-private
+    user-read-email
     playlist-read-private
     playlist-modify-public`;
 
