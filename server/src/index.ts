@@ -126,6 +126,17 @@ app.get('/token', checkAccessToken, (req, res) => {
   );
 });
 
+app.get('/logout', (req, res) => {
+  if (access_token) {
+    access_token = null;
+    expires_in = null;
+    refresh_token = null;
+    res.status(200).json({ result: "SUCCESS", message: 'Logged out successfully' });
+  } else {
+    res.status(401).json({ result: "ERROR", message: 'Access token not available' });
+  }
+});
+
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
