@@ -41,15 +41,6 @@ export const BoldText = styled(Text)`
     padding: .4em;
 `;
 
-export const LoginLink = styled.a`
-    text-decoration: none;
-    color: #fff;
-    font-weight: bold;
-    padding: 0.5rem 1rem;
-    background-color: #10551e;
-    border-radius: 1em;
-`;
-
 export const TopLink = styled(Link)`
   background-color: #179800;
   color: #fff;

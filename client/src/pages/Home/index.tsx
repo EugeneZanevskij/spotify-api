@@ -1,7 +1,9 @@
-import { HomeContainer, Wrapper, SpotiContainer, BoldText, Text, LoginLink, TopLink, PropsWrapper } from './styles';
+import { HomeContainer, Wrapper, SpotiContainer, BoldText, Text, TopLink, PropsWrapper } from './styles';
 import { FaSearch } from "react-icons/fa";
 import { FaRankingStar, FaRepeat } from "react-icons/fa6";
 import { BiSolidPlaylist } from "react-icons/bi";
+import LogoutButton from '../../components/LogoutButton';
+import Login from '../../components/Login';
 
 const Home = ({ token }: { token: string }) => {
   const props = [
@@ -36,7 +38,7 @@ const Home = ({ token }: { token: string }) => {
           <Text fontSize='1em' textAlign='center'>
             Please login with your spotify account, to search for tracks, albums or artists. You can see your track or artist ranking!
           </Text>
-          <LoginLink href="http://localhost:7000/login">Login</LoginLink>
+          <Login />
         </> :
         <Wrapper>
           <BoldText fontSize='1.1em'>See stats:</BoldText>
@@ -44,6 +46,7 @@ const Home = ({ token }: { token: string }) => {
           <TopLink to="/top/artists">Top Artists</TopLink>
         </Wrapper>
         }
+        <LogoutButton />
       </SpotiContainer>
       <Wrapper>
         {props.map((prop, index) => (
