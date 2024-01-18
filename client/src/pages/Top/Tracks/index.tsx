@@ -23,7 +23,7 @@ const TopTracksPage = ({ token }: { token: string }) => {
     }
 
     async function getTopTracks() {
-      const response = await fetchWebApi(`v1/me/top/tracks?time_range=${timeRange}&limit=20`, 'GET');
+      const response = await fetchWebApi(`v1/me/top/tracks?time_range=${timeRange}&limit=30`, 'GET');
       const items = response.items;
       setTracks(items);
     }
@@ -61,7 +61,7 @@ const TopTracksPage = ({ token }: { token: string }) => {
           <TopTrackItem key={track.id} track={track} index={index} />
         ))}
       </TopTrackItems>
-      <PlaylistButton tracks={tracks} token={token} />
+      <PlaylistButton tracks={tracks} token={token} timeRange={timeRange}/>
     </TopTracksContainer>
   );
 };

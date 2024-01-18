@@ -13,7 +13,7 @@ const Button = styled.button`
   cursor: pointer;
 `;
 
-const PlaylistButton: React.FC<{ tracks: Track[], token: string }> = ({ tracks, token }) => {
+const PlaylistButton: React.FC<{ tracks: Track[], token: string, timeRange: string }> = ({ tracks, token, timeRange }) => {
   const [profileId, setProfileId] = useState<string>('');
   const [playlistUrl, setPlaylistUrl] = useState<string>('');
 
@@ -44,7 +44,7 @@ const PlaylistButton: React.FC<{ tracks: Track[], token: string }> = ({ tracks, 
   const handleCreatePlaylist = async () => {
     const response = await fetch('https://api.spotify.com/v1/users/' + profileId + '/playlists', {
       method: 'POST',
-      body: JSON.stringify({ 'name': `Top Tracks ${date()}` }),
+      body: JSON.stringify({ 'name': `${timeRange} Top Tracks dated ${date()}` }),
       headers: {
         'Authorization': `Bearer ${token}`
       }
