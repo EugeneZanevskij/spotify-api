@@ -10,9 +10,9 @@ const SpotifyIconLink = styled.a`
   margin-top: 0.25rem;
 `;
 
-const SpotifyLink = ({ url }: { url: string }) => (
+const SpotifyLink: React.FC<{ url: string, size?: number }> = ({ url, size = 24 }) => (
   <SpotifyIconLink href={url} target="_blank" rel="noopener noreferrer">
-    <FaSpotify size={24}/>
+    <FaSpotify size={size}/>
   </SpotifyIconLink>
 );
 
