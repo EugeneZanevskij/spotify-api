@@ -34,13 +34,18 @@ const TopTracksPage = ({ token }: { token: string }) => {
   const handleTimeRangeChange = (newTimeRange: string) => {
     setTimeRange(newTimeRange);
     setSearchParams({ time_range: timeRange });
+    console.log(buttonsData.find((button) => button.value === timeRange)?.label);
   };
 
   const buttonsData = [
     { label: '4 weeks', value: 'short_term' },
     { label: '6 months', value: 'medium_term' },
     { label: 'All time', value: 'long_term' },
-  ]
+  ];
+
+  const getButtonText = () => {
+    return buttonsData.find((button) => button.value === timeRange)?.label || '4 weeks';
+  }
 
   return (
     <TopTracksContainer>
@@ -61,7 +66,7 @@ const TopTracksPage = ({ token }: { token: string }) => {
           <TopTrackItem key={track.id} track={track} index={index} />
         ))}
       </TopTrackItems>
-      <PlaylistButton tracks={tracks} token={token} timeRange={timeRange}/>
+      <PlaylistButton tracks={tracks} token={token} timeRange={getButtonText()}/>
     </TopTracksContainer>
   );
 };
