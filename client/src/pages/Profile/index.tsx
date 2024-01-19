@@ -23,12 +23,12 @@ const Profile = ({ token }: { token: string }) => {
     };
 
     fetchProfile();
-  }, []);
+  }, [token]);
 
   return (
     <Container>
       <Title>User Profile</Title>
-      {profile ? (
+      {profile?.display_name ? (
         <>
           <ProfileImage src={profile.images[1].url} alt={profile.display_name} />
           <Text fontSize='1em'>Name: <BoldText fontSize='1.2em'>{profile.display_name}</BoldText></Text>
@@ -39,7 +39,7 @@ const Profile = ({ token }: { token: string }) => {
           <SpotifyLink size={32} url={profile.external_urls.spotify} />
           <LogoutButton />
         </>
-      ) : (
+      ): (
         <Text fontSize='1.1em'>Loading profile...</Text>
       )}
     </Container>

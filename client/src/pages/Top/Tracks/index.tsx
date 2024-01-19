@@ -62,7 +62,7 @@ const TopTracksPage = ({ token }: { token: string }) => {
         ))}
       </ButtonsContainer>
       <TopTrackItems>
-        {tracks.map((track, index) => (
+        {tracks?.map((track, index) => (
           <TopTrackItem key={track.id} track={track} index={index} />
         ))}
       </TopTrackItems>

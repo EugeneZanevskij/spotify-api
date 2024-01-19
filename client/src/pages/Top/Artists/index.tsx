@@ -55,7 +55,7 @@ const TopArtistsPage = ({ token }: { token: string}) => {
         ))}
       </ButtonsContainer>
       <ArtistsContainer>
-        {artists.map((artist, index) => (
+        {artists?.map((artist, index) => (
           <ArtistItem
           key={artist.id}
           artist={artist}
