@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import GlobalStyle from './styles/global'
 import Profile from './pages/Profile';
@@ -8,39 +8,36 @@ import SearchPage from './pages/Search';
 import TopTracksPage from './pages/Top/Tracks';
 import TopArtistsPage from './pages/Top/Artists';
 import Footer from './components/Footer';
-import { Provider } from 'react-redux';
-import {store} from './state/store';
+
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState, AppDispatch } from './state/store';
+import { getTokenAsync } from './state/auth/authSlice';
 
 const App = () => {
-  const [accessToken, setAccessToken] = useState<string>('');
+  const dispatch = useDispatch<AppDispatch>();
+  const accessToken = useSelector((state: RootState) => state.auth.accessToken);
   
   useEffect(() => {
-    async function getToken() {
-      const response = await fetch('http://localhost:7000/token');
-      const json = await response.json();
-      setAccessToken(json.access_token as string);
+    if (!accessToken) {
+      dispatch(getTokenAsync());
     }
-
-    getToken();
-  }, []);
+  }, [accessToken, dispatch]);
 
   return (
     <div>
       <BrowserRouter>
-        <Provider store={store}>
         <GlobalStyle />
         <Navbar />
         <Routes>
-          <Route path="/" element={<Home token={accessToken} />} />
-          <Route path="/profile" element={<Profile token={accessToken} />} />
-          <Route path='/search' element={<SearchPage token={accessToken} />} />
+          <Route path="/" element={<Home/>} />
+          <Route path="/profile" element={<Profile/>} />
+          <Route path='/search' element={<SearchPage/>} />
           <Route path='/top'>
-            <Route path='tracks' element={<TopTracksPage token={accessToken} />} />
-            <Route path='artists' element={<TopArtistsPage token={accessToken} />} />
+            <Route path='tracks' element={<TopTracksPage/>} />
+            <Route path='artists' element={<TopArtistsPage/>} />
           </Route>
         </Routes>
         <Footer />
-        </Provider>
       </BrowserRouter>
       {/* <a href="http://localhost:7000/login">Login</a> */}
       {/* {accessToken && <Profile token={accessToken}/>} */}

@@ -3,16 +3,19 @@ import { UserProfile } from '../../types';
 import LogoutButton from '../../components/LogoutButton';
 import SpotifyLink from '../../components/SpotifyLink';
 import { Container, ProfileImage, Text, Title, BoldText } from './styles';
+import { RootState } from '../../state/store';
+import { useSelector } from 'react-redux';
 
-const Profile = ({ token }: { token: string }) => {
+const Profile = () => {
   const [profile, setProfile] = useState<UserProfile>();
+  const accessToken = useSelector((state: RootState) => state.auth.accessToken);
 
   useEffect(() => {
     const fetchProfile = async () => {
       try {
         const response = await fetch('https://api.spotify.com/v1/me', {
           headers: {
-            'Authorization': `Bearer ${token}`,
+            'Authorization': `Bearer ${accessToken}`,
           },
         });
         const data = await response.json();
@@ -23,7 +26,7 @@ const Profile = ({ token }: { token: string }) => {
     };
 
     fetchProfile();
-  }, [token]);
+  }, [accessToken]);
 
   return (
     <Container>

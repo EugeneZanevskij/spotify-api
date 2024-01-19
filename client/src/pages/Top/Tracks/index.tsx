@@ -4,8 +4,11 @@ import { Track } from '../../../types';
 import { TopTracksContainer, TopTracksTitle, ButtonsContainer, TimeRangeButton, TopTrackItems } from './styles';
 import TopTrackItem from '../../../components/TopTrackItem';
 import PlaylistButton from '../../../components/PlaylistButton';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../../state/store';
 
-const TopTracksPage = ({ token }: { token: string }) => {
+const TopTracksPage = () => {
+  const accessToken = useSelector((state: RootState) => state.auth.accessToken);
   const [searchParams, setSearchParams] = useSearchParams();
   const [tracks, setTracks] = useState<Track[]>([]);
   const [timeRange, setTimeRange] = useState<string>(searchParams.get('time_range') || 'short_term');
@@ -14,7 +17,7 @@ const TopTracksPage = ({ token }: { token: string }) => {
     async function fetchWebApi(endpoint: string, method: string, body?: object) {
       const res = await fetch(`https://api.spotify.com/${endpoint}`, {
         headers: {
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${accessToken}`,
         },
         method,
         body: JSON.stringify(body),
@@ -29,7 +32,7 @@ const TopTracksPage = ({ token }: { token: string }) => {
     }
 
     getTopTracks();
-  }, [timeRange, token]);
+  }, [timeRange, accessToken]);
 
   const handleTimeRangeChange = (newTimeRange: string) => {
     setTimeRange(newTimeRange);
@@ -65,7 +68,7 @@ const TopTracksPage = ({ token }: { token: string }) => {
           <TopTrackItem key={track.id} track={track} index={index} />
         ))}
       </TopTrackItems>
-      <PlaylistButton tracks={tracks} token={token} timeRange={getButtonText()}/>
+      <PlaylistButton tracks={tracks} timeRange={getButtonText()}/>
     </TopTracksContainer>
   );
 };

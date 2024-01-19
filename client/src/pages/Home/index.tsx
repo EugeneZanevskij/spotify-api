@@ -4,8 +4,11 @@ import { FaRankingStar, FaRepeat } from "react-icons/fa6";
 import { BiSolidPlaylist } from "react-icons/bi";
 import LogoutButton from '../../components/LogoutButton';
 import Login from '../../components/Login';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../state/store';
 
-const Home = ({ token }: { token: string }) => {
+const Home = () => {
+  const accessToken = useSelector((state: RootState) => state.auth.accessToken);
   const props = [
     {
       title: "Search",
@@ -33,7 +36,7 @@ const Home = ({ token }: { token: string }) => {
     <HomeContainer>
       <SpotiContainer>
         <BoldText fontSize='1.5em'>Spotify API</BoldText>
-        {!token ? 
+        {!accessToken ? 
         <>
           <Text fontSize='1em' textAlign='center'>
             Please login with your spotify account, to search for tracks, albums or artists. You can see your track or artist ranking!

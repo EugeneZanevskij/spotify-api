@@ -1,19 +1,22 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useSearchParams } from 'react-router-dom';
 import { Artist } from '../../../types';
 import { TopContainer, TopTitle, ButtonsContainer, TimeRangeButton, ArtistsContainer } from './styles';
 import ArtistItem from '../../../components/ArtistItem';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../../state/store';
 
-const TopArtistsPage = ({ token }: { token: string}) => {
+const TopArtistsPage = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [artists, setArtists] = useState<Artist[]>([]);
   const [timeRange, setTimeRange] = useState<string>(searchParams.get('time_range') || 'short_term');
+  const accessToken = useSelector((state: RootState) => state.auth.accessToken);
 
   useEffect(() => {
     async function fetchWebApi(endpoint: string, method: string, body?: object) {
       const res = await fetch(`https://api.spotify.com/${endpoint}`, {
         headers: {
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${accessToken}`,
         },
         method,
         body: JSON.stringify(body),
@@ -28,7 +31,7 @@ const TopArtistsPage = ({ token }: { token: string}) => {
     }
 
     getTopTracks();
-  }, [timeRange, token]);
+  }, [timeRange, accessToken]);
 
   const handleTimeRangeChange = (newTimeRange: string) => {
     setTimeRange(newTimeRange);
