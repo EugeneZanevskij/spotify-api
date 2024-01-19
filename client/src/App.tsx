@@ -8,6 +8,8 @@ import SearchPage from './pages/Search';
 import TopTracksPage from './pages/Top/Tracks';
 import TopArtistsPage from './pages/Top/Artists';
 import Footer from './components/Footer';
+import { Provider } from 'react-redux';
+import {store} from './state/store';
 
 const App = () => {
   const [accessToken, setAccessToken] = useState<string>('');
@@ -25,6 +27,7 @@ const App = () => {
   return (
     <div>
       <BrowserRouter>
+        <Provider store={store}>
         <GlobalStyle />
         <Navbar />
         <Routes>
@@ -37,6 +40,7 @@ const App = () => {
           </Route>
         </Routes>
         <Footer />
+        </Provider>
       </BrowserRouter>
       {/* <a href="http://localhost:7000/login">Login</a> */}
       {/* {accessToken && <Profile token={accessToken}/>} */}
