@@ -33,8 +33,7 @@ const TopTracksPage = ({ token }: { token: string }) => {
 
   const handleTimeRangeChange = (newTimeRange: string) => {
     setTimeRange(newTimeRange);
-    setSearchParams({ time_range: timeRange });
-    console.log(buttonsData.find((button) => button.value === timeRange)?.label);
+    setSearchParams({ time_range: newTimeRange });
   };
 
   const buttonsData = [
@@ -49,7 +48,7 @@ const TopTracksPage = ({ token }: { token: string }) => {
 
   return (
     <TopTracksContainer>
-      <TopTracksTitle>Top Tracks</TopTracksTitle>
+      <TopTracksTitle>Top Tracks of {getButtonText()}</TopTracksTitle>
       <ButtonsContainer>
         {buttonsData.map((button) => (
           <TimeRangeButton

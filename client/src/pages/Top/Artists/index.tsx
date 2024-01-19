@@ -32,17 +32,22 @@ const TopArtistsPage = ({ token }: { token: string}) => {
 
   const handleTimeRangeChange = (newTimeRange: string) => {
     setTimeRange(newTimeRange);
-    setSearchParams({ time_range: timeRange });
+    setSearchParams({ time_range: newTimeRange });
   };
 
   const buttonsData = [
     { label: '4 weeks', value: 'short_term' },
     { label: '6 months', value: 'medium_term' },
     { label: 'All time', value: 'long_term' },
-  ]
+  ];
+
+  const getButtonText = () => {
+    return buttonsData.find((button) => button.value === timeRange)?.label || '4 weeks';
+  };
+
   return (
     <TopContainer>
-      <TopTitle>Top Artists</TopTitle>
+      <TopTitle>Top Artists of {getButtonText()}</TopTitle>
       <ButtonsContainer>
         {buttonsData.map((button) => (
           <TimeRangeButton
