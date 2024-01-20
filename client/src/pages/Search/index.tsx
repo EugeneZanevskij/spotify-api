@@ -4,17 +4,19 @@ import { SearchPageWrapper, ButtonContainer, StyledButton, SearchForm, SearchInp
 import ArtistItem from '../../components/ArtistItem';
 import AlbumItem from '../../components/AlbumItem';
 import TrackItem from '../../components/TrackItem';
-import { useSelector } from 'react-redux';
-import { RootState } from '../../state/store';
+import { useSelector, useDispatch } from 'react-redux';
+import { RootState, AppDispatch } from '../../state/store';
+import { searchTracksAsync } from '../../state/spotify/spotifySlice';
 
 
 function SearchPage() {
+  const dispatch = useDispatch<AppDispatch>();
   const accessToken = useSelector((state: RootState) => state.auth.accessToken);
+  const tracks = useSelector((state: RootState) => state.spotify.tracks);
   const [searchType, setSearchType] = useState< "album"|"artist"|"track">('track');
   const [searchTerm, setSearchTerm] = useState('');
   const [artists, setArtists] = useState<Artist[]>([]);
   const [albums, setAlbums] = useState<Album[]>([]);
-  const [tracks, setTracks] = useState<Track[]>([]);
 
   const handleSearchInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(event.target.value);
@@ -23,7 +25,6 @@ function SearchPage() {
   const setArraysEmpty = () => {
     setArtists([]);
     setAlbums([]);
-    setTracks([]);
   }
 
   const handleSearchSubmit = async (event: React.FormEvent) => {
@@ -44,7 +45,7 @@ function SearchPage() {
         setArtists(data.artists.items);
         break;
       case 'track':
-        setTracks(data.tracks.items);
+        dispatch(searchTracksAsync({ accessToken, query: searchTerm }));
         break;
     }
   };
