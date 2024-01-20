@@ -22,12 +22,9 @@ function SearchPage() {
     setSearchTerm(event.target.value);
   };
 
-  const setArraysEmpty = () => {
-  }
-
   const handleSearchSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-    setArraysEmpty();
+    dispatch({ type: 'spotify/clearSearch' });
     switch (searchType) {
       case 'album':
         dispatch(searchAlbumsAsync({ accessToken, query: searchTerm }));

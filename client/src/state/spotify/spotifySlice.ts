@@ -22,7 +22,13 @@ const initialState: SpotifyState = {
 const spotifySlice = createSlice({
   name: 'spotify',
   initialState,
-  reducers: {},
+  reducers: {
+    clearSearch: (state) => {
+      state.tracks = null;
+      state.artists = null;
+      state.albums = null;
+    }
+  },
   extraReducers: (builder) => {
     builder
       .addCase(getUserProfileAsync.pending, () => {
@@ -140,6 +146,6 @@ export const searchAlbumsAsync = createAsyncThunk(
     const json = await response.json();
     return json.albums.items as Album[];
   }
-)
+);
 
 export default spotifySlice.reducer;
