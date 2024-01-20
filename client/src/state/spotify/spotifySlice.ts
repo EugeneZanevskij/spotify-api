@@ -1,5 +1,5 @@
 import { PayloadAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { Artist, Track, UserProfile } from '../../types';
+import { Album, Artist, Track, UserProfile } from '../../types';
 
 interface SpotifyState {
   user: UserProfile | null;
@@ -7,6 +7,7 @@ interface SpotifyState {
   topArtists: Artist[] | null;
   tracks: Track[] | null;
   artists: Artist[] | null;
+  albums: Album[] | null;
 }
 
 const initialState: SpotifyState = {
@@ -15,6 +16,7 @@ const initialState: SpotifyState = {
   topArtists: null,
   tracks: null,
   artists: null,
+  albums: null
 };
 
 const spotifySlice = createSlice({
@@ -52,6 +54,12 @@ const spotifySlice = createSlice({
       })
       .addCase(searchArtistsAsync.fulfilled, (state, action: PayloadAction<Artist[]>) => {
         state.artists = action.payload;
+      })
+      .addCase(searchAlbumsAsync.pending, () => {
+        console.log('pending search albums');
+      })
+      .addCase(searchAlbumsAsync.fulfilled, (state, action: PayloadAction<Album[]>) => {
+        state.albums = action.payload;
       })
   }
 });
@@ -118,6 +126,19 @@ export const searchArtistsAsync = createAsyncThunk(
     });
     const json = await response.json();
     return json.artists.items as Artist[];
+  }
+);
+
+export const searchAlbumsAsync = createAsyncThunk(
+  'spotify/searchAlbumsAsync',
+  async ({ accessToken, query }: { accessToken: string, query: string }) => {
+    const response = await fetch(`https://api.spotify.com/v1/search?q=${query}&type=album`, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+    const json = await response.json();
+    return json.albums.items as Album[];
   }
 )
 
