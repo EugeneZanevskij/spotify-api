@@ -1,45 +1,32 @@
-import { useEffect, useState } from 'react';
-import { UserProfile } from '../../types';
+import { useEffect } from 'react';
 import LogoutButton from '../../components/LogoutButton';
 import SpotifyLink from '../../components/SpotifyLink';
 import { Container, ProfileImage, Text, Title, BoldText } from './styles';
-import { RootState } from '../../state/store';
-import { useSelector } from 'react-redux';
+import { RootState, AppDispatch } from '../../state/store';
+import { useSelector, useDispatch } from 'react-redux';
+import { getUserProfileAsync } from '../../state/spotify/spotifySlice';
 
 const Profile = () => {
-  const [profile, setProfile] = useState<UserProfile>();
   const accessToken = useSelector((state: RootState) => state.auth.accessToken);
+  const dispatch = useDispatch<AppDispatch>();
+  const user = useSelector((state: RootState) => state.spotify.user);
 
   useEffect(() => {
-    const fetchProfile = async () => {
-      try {
-        const response = await fetch('https://api.spotify.com/v1/me', {
-          headers: {
-            'Authorization': `Bearer ${accessToken}`,
-          },
-        });
-        const data = await response.json();
-        setProfile(data);
-      } catch (error) {
-        console.error('Error fetching user profile:', error);
-      }
-    };
-
-    fetchProfile();
-  }, [accessToken]);
+    dispatch(getUserProfileAsync(accessToken));
+  }, [accessToken, dispatch]);
 
   return (
     <Container>
       <Title>User Profile</Title>
-      {profile?.display_name ? (
+      {user?.display_name ? (
         <>
-          <ProfileImage src={profile.images[1].url} alt={profile.display_name} />
-          <Text fontSize='1em'>Name: <BoldText fontSize='1.2em'>{profile.display_name}</BoldText></Text>
-          <Text fontSize='1.1em' color='gray'>ID: {profile.id}</Text>
-          <Text fontSize='1.1em' color='gray'>Email: {profile.email}</Text>
-          <Text fontSize='1.1em' color='gray'>Country: {profile.country}</Text>
-          <Text fontSize='1.1em' color='gray'>Product: {profile.product}</Text>
-          <SpotifyLink size={32} url={profile.external_urls.spotify} />
+          <ProfileImage src={user.images[1].url} alt={user.display_name} />
+          <Text fontSize='1em'>Name: <BoldText fontSize='1.2em'>{user.display_name}</BoldText></Text>
+          <Text fontSize='1.1em' color='gray'>ID: {user.id}</Text>
+          <Text fontSize='1.1em' color='gray'>Email: {user.email}</Text>
+          <Text fontSize='1.1em' color='gray'>Country: {user.country}</Text>
+          <Text fontSize='1.1em' color='gray'>Product: {user.product}</Text>
+          <SpotifyLink size={32} url={user.external_urls.spotify} />
           <LogoutButton />
         </>
       ): (

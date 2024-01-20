@@ -39,8 +39,6 @@ const App = () => {
         </Routes>
         <Footer />
       </BrowserRouter>
-      {/* <a href="http://localhost:7000/login">Login</a> */}
-      {/* {accessToken && <Profile token={accessToken}/>} */}
     </div>
   )
 }
