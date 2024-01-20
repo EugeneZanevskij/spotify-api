@@ -68,6 +68,7 @@ app.get('/login', (req, res) => {
     `user-modify-playback-state
     user-read-playback-state
     user-read-currently-playing
+    user-read-recently-played
     user-library-modify
     user-library-read
     user-top-read

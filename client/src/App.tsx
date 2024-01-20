@@ -12,6 +12,7 @@ import Footer from './components/Footer';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState, AppDispatch } from './state/store';
 import { getTokenAsync } from './state/auth/authSlice';
+import RecentlyPlayedPage from './pages/RecentlyPlayed';
 
 const App = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -36,6 +37,7 @@ const App = () => {
             <Route path='tracks' element={<TopTracksPage/>} />
             <Route path='artists' element={<TopArtistsPage/>} />
           </Route>
+          <Route path='recently-played' element={<RecentlyPlayedPage/>} />
         </Routes>
         <Footer />
       </BrowserRouter>

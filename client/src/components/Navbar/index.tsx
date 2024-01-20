@@ -15,11 +15,11 @@ function Navbar() {
   };
 
   const links = [
-    { name: 'Home', path: '/' },
     { name: 'Profile', path: '/profile' },
     { name: 'Search', path: '/search' },
     { name: 'Top Tracks', path: '/top/tracks' },
     { name: 'Top Artists', path: '/top/artists' },
+    { name: 'Recently Played', path: '/recently-played' },
   ];
 
   return (

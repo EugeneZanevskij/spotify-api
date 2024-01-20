@@ -1,5 +1,5 @@
 import { PayloadAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { Album, Artist, Track, UserProfile } from '../../types';
+import { Album, Artist, RecentlyPlayedTrack, Track, UserProfile } from '../../types';
 
 interface SpotifyState {
   user: UserProfile | null;
@@ -8,6 +8,7 @@ interface SpotifyState {
   tracks: Track[] | null;
   artists: Artist[] | null;
   albums: Album[] | null;
+  recentlyPlayed: RecentlyPlayedTrack[] | null;
 }
 
 const initialState: SpotifyState = {
@@ -16,7 +17,8 @@ const initialState: SpotifyState = {
   topArtists: null,
   tracks: null,
   artists: null,
-  albums: null
+  albums: null,
+  recentlyPlayed: null
 };
 
 const spotifySlice = createSlice({
@@ -66,6 +68,12 @@ const spotifySlice = createSlice({
       })
       .addCase(searchAlbumsAsync.fulfilled, (state, action: PayloadAction<Album[]>) => {
         state.albums = action.payload;
+      })
+      .addCase(getRecentlyPlayedAsync.pending, () => {
+        console.log('pending recently played');
+      })
+      .addCase(getRecentlyPlayedAsync.fulfilled, (state, action: PayloadAction<RecentlyPlayedTrack[]>) => {
+        state.recentlyPlayed = action.payload;
       })
   }
 });
@@ -145,6 +153,19 @@ export const searchAlbumsAsync = createAsyncThunk(
     });
     const json = await response.json();
     return json.albums.items as Album[];
+  }
+);
+
+export const getRecentlyPlayedAsync = createAsyncThunk(
+  'spotify/getRecentlyPlayedAsync',
+  async (access_token : string) => {
+    const response = await fetch('https://api.spotify.com/v1/me/player/recently-played', {
+      headers: {
+        Authorization: `Bearer ${access_token}`,
+      },
+    });
+    const json = await response.json();
+    return json.items as RecentlyPlayedTrack[];
   }
 );
 
