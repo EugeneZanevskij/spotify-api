@@ -1,37 +1,21 @@
 import { useEffect, useState } from 'react'
 import { useSearchParams } from 'react-router-dom';
-import { Artist } from '../../../types';
 import { TopContainer, TopTitle, ButtonsContainer, TimeRangeButton, ArtistsContainer } from './styles';
 import ArtistItem from '../../../components/ArtistItem';
-import { useSelector } from 'react-redux';
-import { RootState } from '../../../state/store';
+import { useSelector, useDispatch } from 'react-redux';
+import { RootState, AppDispatch } from '../../../state/store';
+import { getTopArtistsAsync } from '../../../state/spotify/spotifySlice';
 
 const TopArtistsPage = () => {
   const [searchParams, setSearchParams] = useSearchParams();
-  const [artists, setArtists] = useState<Artist[]>([]);
   const [timeRange, setTimeRange] = useState<string>(searchParams.get('time_range') || 'short_term');
   const accessToken = useSelector((state: RootState) => state.auth.accessToken);
+  const dispatch = useDispatch<AppDispatch>();
+  const topArtists = useSelector((state: RootState) => state.spotify.topArtists);
 
   useEffect(() => {
-    async function fetchWebApi(endpoint: string, method: string, body?: object) {
-      const res = await fetch(`https://api.spotify.com/${endpoint}`, {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-        method,
-        body: JSON.stringify(body),
-      });
-      return await res.json();
-    }
-
-    async function getTopTracks() {
-      const response = await fetchWebApi(`v1/me/top/artists?time_range=${timeRange}&limit=20`, 'GET');
-      const items = response.items;
-      setArtists(items);
-    }
-
-    getTopTracks();
-  }, [timeRange, accessToken]);
+    dispatch(getTopArtistsAsync({ accessToken, timeRange }));
+  }, [timeRange, accessToken, dispatch]);
 
   const handleTimeRangeChange = (newTimeRange: string) => {
     setTimeRange(newTimeRange);
@@ -62,15 +46,16 @@ const TopArtistsPage = () => {
           </TimeRangeButton>
         ))}
       </ButtonsContainer>
+      {topArtists &&
       <ArtistsContainer>
-        {artists?.map((artist, index) => (
+        {topArtists?.map((topArtist, index) => (
           <ArtistItem
-          key={artist.id}
-          artist={artist}
+          key={topArtist.id}
+          artist={topArtist}
           index={index + 1}
           />
-        ))}
-      </ArtistsContainer>
+          ))}
+      </ArtistsContainer>}
     </TopContainer>
   )
 }
