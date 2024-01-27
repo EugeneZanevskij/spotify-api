@@ -1,19 +1,19 @@
 import { useEffect, useState } from 'react';
-import { useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";  // TODO: add linter into app, please
 import LogoImage from '../../assets/Logo.png';
 import { NavbarContainer, NavLogo, Logo, NavLinks, NavItem, NavLink, BurgerMenu } from './styles';
 
 function Navbar() {
-  const [open, setOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
+
   useEffect(() => {
-    setOpen(false);
+    setIsOpen(false);
   }, [location]);
 
-  const toggleMenu = () => {
-    setOpen(!open);
-  };
+  const toggleMenu = () => setIsOpen(!isOpen);
 
+  // TODO: I would move it to constants or paths
   const links = [
     { name: 'Home', path: '/' },
     { name: 'Profile', path: '/profile' },

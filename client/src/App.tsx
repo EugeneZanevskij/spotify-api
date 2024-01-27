@@ -10,9 +10,11 @@ import TopArtistsPage from './pages/Top/Artists';
 import Footer from './components/Footer';
 
 const App = () => {
+  // TODO: I would move it to redux
   const [accessToken, setAccessToken] = useState<string>('');
-  
+
   useEffect(() => {
+    // TODO: I would move it to separate service
     async function getToken() {
       const response = await fetch('http://localhost:7000/token');
       const json = await response.json();
@@ -23,6 +25,7 @@ const App = () => {
   }, []);
 
   return (
+    /* // TODO: I would use <></> bellow */
     <div>
       <BrowserRouter>
         <GlobalStyle />
