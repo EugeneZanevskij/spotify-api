@@ -33,8 +33,8 @@ const App = () => {
           <Route path="/profile" element={<Profile />} />
           <Route path='/search' element={<SearchPage />} />
           <Route path='/top'>
-            <Route path='tracks' element={<TopTracksPage token={accessToken} />} />
-            <Route path='artists' element={<TopArtistsPage token={accessToken} />} />
+            <Route path='tracks' element={<TopTracksPage />} />
+            <Route path='artists' element={<TopArtistsPage />} />
           </Route>
         </Routes>
         <Footer />
