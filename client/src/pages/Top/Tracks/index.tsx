@@ -1,38 +1,22 @@
 import { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { Track } from '../../../types';
 import { TopTracksContainer, TopTracksTitle, ButtonsContainer, TimeRangeButton, TopTrackItems } from './styles';
 import TopTrackItem from '../../../components/TopTrackItem';
 import PlaylistButton from '../../../components/PlaylistButton';
-import { useSelector } from 'react-redux';
-import { RootState } from '../../../state/store';
+import { useSelector, useDispatch } from 'react-redux';
+import { RootState, AppDispatch } from '../../../state/store';
+import { getTopTracksAsync } from '../../../state/spotify/spotifySlice';
 
 const TopTracksPage = () => {
   const accessToken = useSelector((state: RootState) => state.auth.accessToken);
+  const dispatch = useDispatch<AppDispatch>();
+  const topTracks = useSelector((state: RootState) => state.spotify.topTracks);
   const [searchParams, setSearchParams] = useSearchParams();
-  const [tracks, setTracks] = useState<Track[]>([]);
   const [timeRange, setTimeRange] = useState<string>(searchParams.get('time_range') || 'short_term');
 
   useEffect(() => {
-    async function fetchWebApi(endpoint: string, method: string, body?: object) {
-      const res = await fetch(`https://api.spotify.com/${endpoint}`, {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-        method,
-        body: JSON.stringify(body),
-      });
-      return await res.json();
-    }
-
-    async function getTopTracks() {
-      const response = await fetchWebApi(`v1/me/top/tracks?time_range=${timeRange}&limit=30`, 'GET');
-      const items = response.items;
-      setTracks(items);
-    }
-
-    getTopTracks();
-  }, [timeRange, accessToken]);
+    dispatch(getTopTracksAsync({accessToken, timeRange}));
+  }, [timeRange, accessToken, dispatch]);
 
   const handleTimeRangeChange = (newTimeRange: string) => {
     setTimeRange(newTimeRange);
@@ -65,11 +49,12 @@ const TopTracksPage = () => {
         ))}
       </ButtonsContainer>
       <TopTrackItems>
-        {tracks?.map((track, index) => (
-          <TopTrackItem key={track.id} track={track} index={index} />
+        {topTracks?.map((topTrack, index) => (
+          <TopTrackItem key={topTrack.id} track={topTrack} index={index} />
         ))}
       </TopTrackItems>
-      <PlaylistButton tracks={tracks} timeRange={getButtonText()}/>
+      { topTracks && 
+      <PlaylistButton tracks={topTracks} timeRange={getButtonText()}/> }
     </TopTracksContainer>
   );
 };
