@@ -3,16 +3,19 @@ import { UserProfile } from '../../types';
 import LogoutButton from '../../components/LogoutButton';
 import SpotifyLink from '../../components/SpotifyLink';
 import { Container, ProfileImage, Text, Title, BoldText } from './styles';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../state/store';
 
-const Profile = ({ token }: { token: string }) => {
+const Profile = () => {
   const [profile, setProfile] = useState<UserProfile>();
+  const accessToken = useSelector((state: RootState) => state.auth.accessToken);
 
   useEffect(() => {
     const fetchProfile = async () => {
       try {
         const response = await fetch('https://api.spotify.com/v1/me', {
           headers: {
-            'Authorization': `Bearer ${token}`,
+            'Authorization': `Bearer ${accessToken}`,
           },
         });
         const data = await response.json();
@@ -23,7 +26,7 @@ const Profile = ({ token }: { token: string }) => {
     };
 
     fetchProfile();
-  }, [token]);
+  }, [accessToken]);
 
   return (
     <Container>
@@ -32,12 +35,12 @@ const Profile = ({ token }: { token: string }) => {
         <>
           /* // TODO: I would support cases when profile could have not all keys from expected */
           <ProfileImage src={profile?.images[1].url} alt={profile?.display_name} />
-          <Text fontSize='1em'>Name: <BoldText fontSize='1.2em'>{profile.display_name}</BoldText></Text>
-          <Text fontSize='1.1em' color='gray'>ID: {profile.id}</Text>
-          <Text fontSize='1.1em' color='gray'>Email: {profile.email}</Text>
-          <Text fontSize='1.1em' color='gray'>Country: {profile.country}</Text>
-          <Text fontSize='1.1em' color='gray'>Product: {profile.product}</Text>
-          <SpotifyLink size={32} url={profile.external_urls.spotify} />
+          <Text fontSize='1em'>Name: <BoldText fontSize='1.2em'>{profile?.display_name}</BoldText></Text>
+          <Text fontSize='1.1em' color='gray'>ID: {profile?.id}</Text>
+          <Text fontSize='1.1em' color='gray'>Email: {profile?.email}</Text>
+          <Text fontSize='1.1em' color='gray'>Country: {profile?.country}</Text>
+          <Text fontSize='1.1em' color='gray'>Product: {profile?.product}</Text>
+          <SpotifyLink size={32} url={profile?.external_urls.spotify} />
           <LogoutButton />
         </>
       ): (

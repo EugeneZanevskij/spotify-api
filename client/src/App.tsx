@@ -30,7 +30,7 @@ const App = () => {
         <Navbar />
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/profile" element={<Profile token={accessToken} />} />
+          <Route path="/profile" element={<Profile />} />
           <Route path='/search' element={<SearchPage token={accessToken} />} />
           <Route path='/top'>
             <Route path='tracks' element={<TopTracksPage token={accessToken} />} />
