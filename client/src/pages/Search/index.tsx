@@ -16,7 +16,11 @@ import {
   SearchInputs,
 } from './styles';
 
-function SearchPage({ token } : { token: string }) {
+import { useSelector } from 'react-redux';
+import { RootState } from '../../state/store';
+
+function SearchPage() {
+  const accessToken = useSelector((state: RootState) => state.auth.accessToken);
   // TODO: I would create a type or enum
   const [searchType, setSearchType] = useState<"album" | "artist" | "track">('track');
   const [searchTerm, setSearchTerm] = useState('');
@@ -39,7 +43,7 @@ function SearchPage({ token } : { token: string }) {
 
     const response = await fetch(`https://api.spotify.com/v1/search?q=${searchTerm}&type=${searchType}`, {
       headers: {
-        'Authorization': `Bearer ${token}`
+        'Authorization': `Bearer ${accessToken}`
       }
     });
     const data = await response.json();

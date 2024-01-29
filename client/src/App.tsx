@@ -31,7 +31,7 @@ const App = () => {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/profile" element={<Profile />} />
-          <Route path='/search' element={<SearchPage token={accessToken} />} />
+          <Route path='/search' element={<SearchPage />} />
           <Route path='/top'>
             <Route path='tracks' element={<TopTracksPage token={accessToken} />} />
             <Route path='artists' element={<TopArtistsPage token={accessToken} />} />
