@@ -1,13 +1,24 @@
 import React, { useState } from 'react';
+
 import { Album, Artist, Track } from '../../types';
-import { SearchPageWrapper, ButtonContainer, StyledButton, SearchForm, SearchInput, SearchButton, SearchResults, BoldText, SearchInputs } from './styles';
 import ArtistItem from '../../components/ArtistItem';
 import AlbumItem from '../../components/AlbumItem';
 import TrackItem from '../../components/TrackItem';
+import {
+  SearchPageWrapper,
+  ButtonContainer,
+  StyledButton,
+  SearchForm,
+  SearchInput,
+  SearchButton,
+  SearchResults,
+  BoldText,
+  SearchInputs,
+} from './styles';
 
-
-function SearchPage( {token} : {token: string} ) {
-  const [searchType, setSearchType] = useState< "album"|"artist"|"track">('track');
+function SearchPage({ token } : { token: string }) {
+  // TODO: I would create a type or enum
+  const [searchType, setSearchType] = useState<"album" | "artist" | "track">('track');
   const [searchTerm, setSearchTerm] = useState('');
   const [artists, setArtists] = useState<Artist[]>([]);
   const [albums, setAlbums] = useState<Album[]>([]);

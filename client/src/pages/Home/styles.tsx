@@ -25,14 +25,14 @@ export const SpotiContainer = styled.div`
 
 export const Wrapper = styled(ItemWrapper)`
   display: flex;
-  flex-direction: ${(props)=>props.flexDirection ?  props.flexDirection  : "column"};
+  flex-direction: ${(props)=> props.flexDirection ?  props.flexDirection  : "column"};
   align-items:  ${(props)=>props.alignItems ? props.alignItems  : "center"};
   gap: 1rem;
 `;
 
 export const Text = styled(PageText)`
-    color:${(props)=>props.color ? props.color :"#131A22" };
-    font-size:${(props)=>props.fontSize ? props.fontSize :".9em" };
+    color:${(props)=>props.color ? props.color :"#131A22" }; // TODO: I would use vars for colors etc
+  font-size:${(props)=>props.fontSize ? props.fontSize :".9em" };
     text-align:${(props)=>props.textAlign ? props.textAlign : "center" };
 `;
 

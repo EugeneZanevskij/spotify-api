@@ -22,7 +22,7 @@ const ProfileImage = styled.img`
 `;
 
 const Text = styled(PageText)`
-  color: ${(props) => props.color ? props.color : "#131A22"};
+  color: ${({ color }) => color ?? '#131A22'}; // TODO: I would add a var here and in other places instead of '#131A22'
   font-size: ${(props) => props.fontSize ? props.fontSize : ".9em"};
 `;
 

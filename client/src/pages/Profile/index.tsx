@@ -30,7 +30,8 @@ const Profile = ({ token }: { token: string }) => {
       <Title>User Profile</Title>
       {profile?.display_name ? (
         <>
-          <ProfileImage src={profile.images[1].url} alt={profile.display_name} />
+          /* // TODO: I would support cases when profile could have not all keys from expected */
+          <ProfileImage src={profile?.images[1].url} alt={profile?.display_name} />
           <Text fontSize='1em'>Name: <BoldText fontSize='1.2em'>{profile.display_name}</BoldText></Text>
           <Text fontSize='1.1em' color='gray'>ID: {profile.id}</Text>
           <Text fontSize='1.1em' color='gray'>Email: {profile.email}</Text>
@@ -40,6 +41,7 @@ const Profile = ({ token }: { token: string }) => {
           <LogoutButton />
         </>
       ): (
+        /* // TODO: if we got an error we always will see loading */
         <Text fontSize='1.1em'>Loading profile...</Text>
       )}
     </Container>
