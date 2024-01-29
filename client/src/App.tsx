@@ -29,7 +29,7 @@ const App = () => {
         <GlobalStyle />
         <Navbar />
         <Routes>
-          <Route path="/" element={<Home token={accessToken} />} />
+          <Route path="/" element={<Home />} />
           <Route path="/profile" element={<Profile token={accessToken} />} />
           <Route path='/search' element={<SearchPage token={accessToken} />} />
           <Route path='/top'>

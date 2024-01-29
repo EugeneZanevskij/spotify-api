@@ -1,41 +1,19 @@
-import { FaSearch } from "react-icons/fa";
-import { FaRankingStar, FaRepeat } from "react-icons/fa6";
-import { BiSolidPlaylist } from "react-icons/bi";
-
 import LogoutButton from '../../components/LogoutButton';
 import Login from '../../components/Login';
 import { HomeContainer, Wrapper, SpotiContainer, BoldText, Text, TopLink, PropsWrapper } from './styles';
+import { homepageProps } from '../../constants';
 
-const Home = ({ token }: { token: string }) => {
-  // TODO: I would move it to constants
-  const props = [
-    {
-      title: "Search",
-      description: "Search for tracks, albums or artists by name switching between 3 categories for search.",
-      icon: <FaSearch size={48} />
-    },
-    {
-      title: "Your own ranking",
-      description: "View your most listened tracks, artists and switch between 3 different time periods (4 weeks, 6 months and All time).",
-      icon: <FaRankingStar size={48} />
-    },
-    {
-      title: "Create playlist",
-      description: "Create a playlist from your personal charts and listen to them directly in your spotify app.",
-      icon: <BiSolidPlaylist size={48} />
-    },
-    {
-      title: "Recently played tracks",
-      description: "Check out your recently played tracks.",
-      icon: <FaRepeat size={48} />
-    }
-  ];
+import { useSelector } from 'react-redux';
+import { RootState } from '../../state/store';
+
+const Home = () => {
+  const accessToken = useSelector((state: RootState) => state.auth.accessToken);  
 
   return (
     <HomeContainer>
       <SpotiContainer>
         <BoldText fontSize='1.5em'>Spotify API</BoldText>
-        {!token ?
+        {!accessToken ?
         <>
           <Text fontSize='1em' textAlign='center'>
             Please login with your spotify account, to search for tracks, albums or artists. You can see your track or artist ranking!
@@ -51,12 +29,12 @@ const Home = ({ token }: { token: string }) => {
         <LogoutButton />
       </SpotiContainer>
       <Wrapper>
-        {props.map((prop, index) => (
+        {homepageProps.map((homepageProp, index) => (
           <Wrapper flexDirection='row' key={index}>
-            {prop.icon}
+            <homepageProp.icon size={48} />
             <PropsWrapper>
-              <BoldText fontSize='1.1em'>{prop.title}</BoldText>
-              <Text fontSize='1em'>{prop.description}</Text>
+              <BoldText fontSize='1.1em'>{homepageProp.title}</BoldText>
+              <Text fontSize='1em'>{homepageProp.description}</Text>
             </PropsWrapper>
           </Wrapper>
         ))}
