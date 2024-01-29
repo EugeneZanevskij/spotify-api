@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { Track } from '../types';
 import SpotifyLink from './SpotifyLink';
+import { useSelector } from 'react-redux';
+import { RootState } from '../state/store';
 
 const Button = styled.button`
   background-color: #007bff;
@@ -13,16 +15,17 @@ const Button = styled.button`
   cursor: pointer;
 `;
 
-const PlaylistButton: React.FC<{ tracks: Track[], token: string, timeRange: string }> = ({ tracks, token, timeRange }) => {
+const PlaylistButton: React.FC<{ tracks: Track[], timeRange: string }> = ({ tracks, timeRange }) => {
   const [profileId, setProfileId] = useState<string>('');
   const [playlistUrl, setPlaylistUrl] = useState<string>('');
+  const accessToken = useSelector((state: RootState) => state.auth.accessToken);
 
   useEffect(() => {
     const fetchProfile = async () => {
       try {
         const response = await fetch('https://api.spotify.com/v1/me', {
           headers: {
-            'Authorization': `Bearer ${token}`,
+            'Authorization': `Bearer ${accessToken}`,
           },
         });
         const data = await response.json();
@@ -33,7 +36,7 @@ const PlaylistButton: React.FC<{ tracks: Track[], token: string, timeRange: stri
     };
 
     fetchProfile();
-  }, []);
+  }, [accessToken]);
 
   const date = () => {
     const date = new Date();
@@ -41,12 +44,13 @@ const PlaylistButton: React.FC<{ tracks: Track[], token: string, timeRange: stri
     return `${date.getDate()} ${month} ${date.getFullYear()}`
   };
 
+  // TODO: create API for handling some functions
   const handleCreatePlaylist = async () => {
     const response = await fetch('https://api.spotify.com/v1/users/' + profileId + '/playlists', {
       method: 'POST',
       body: JSON.stringify({ 'name': `${timeRange} Top Tracks dated ${date()}` }),
       headers: {
-        'Authorization': `Bearer ${token}`
+        'Authorization': `Bearer ${accessToken}`
       }
     });
     const data = await response.json();
@@ -56,7 +60,7 @@ const PlaylistButton: React.FC<{ tracks: Track[], token: string, timeRange: stri
       method: 'POST',
       body: JSON.stringify({ 'uris': tracks.map(track => track.uri) }),
       headers: {
-        'Authorization': `Bearer ${token}`
+        'Authorization': `Bearer ${accessToken}`
       }
     })
     console.log(playlistResponse);

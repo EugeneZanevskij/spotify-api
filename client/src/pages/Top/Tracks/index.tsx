@@ -69,7 +69,7 @@ const TopTracksPage = () => {
           <TopTrackItem key={track.id} track={track} index={index} />
         ))}
       </TopTrackItems>
-      <PlaylistButton tracks={tracks} token={token} timeRange={getButtonText()}/>
+      <PlaylistButton tracks={tracks} timeRange={getButtonText()}/>
     </TopTracksContainer>
   );
 };
