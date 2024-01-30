@@ -7,19 +7,21 @@ import { useSelector, useDispatch } from 'react-redux';
 import { RootState, AppDispatch } from '../../../state/store';
 import { getTopTracksAsync } from '../../../state/spotify/spotifySlice';
 
+type TimeRange = 'short_term' | 'medium_term' | 'long_term';
+
 const TopTracksPage = () => {
   const accessToken = useSelector((state: RootState) => state.auth.accessToken);
   const dispatch = useDispatch<AppDispatch>();
   const topTracks = useSelector((state: RootState) => state.spotify.topTracks);
   const [searchParams, setSearchParams] = useSearchParams();
-  const [timeRange, setTimeRange] = useState<string>(searchParams.get('time_range') || 'short_term');
+  const [timeRange, setTimeRange] = useState<TimeRange>(searchParams.get('time_range') as TimeRange || 'short_term');
 
   useEffect(() => {
     dispatch(getTopTracksAsync({accessToken, timeRange}));
   }, [timeRange, accessToken, dispatch]);
 
   const handleTimeRangeChange = (newTimeRange: string) => {
-    setTimeRange(newTimeRange);
+    setTimeRange(newTimeRange as TimeRange);
     setSearchParams({ time_range: newTimeRange });
   };
 
