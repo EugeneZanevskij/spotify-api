@@ -73,23 +73,23 @@ function SearchPage() {
           <SearchButton type="submit">Search</SearchButton>
         </SearchInputs>
       </SearchForm>
-      {artists &&
+      {searchType === 'artist' &&
         <SearchResults>
-        {artists.map((artist: Artist) => (
+        {artists?.map((artist: Artist) => (
           <ArtistItem key={artist.id} artist={artist} />
         ))}
       </SearchResults>
       }
-      {albums &&
+      {searchType === 'album' &&
         <SearchResults>
-          {albums.map((album: Album) => (
+          {albums?.map((album: Album) => (
             <AlbumItem key={album.id} album={album} />
           ))}
         </SearchResults>
       }
-      {tracks &&
+      {searchType === 'track' &&
         <SearchResults>
-          {tracks.map((track: Track) => (
+          {tracks?.map((track: Track) => (
             <TrackItem key={track.id} track={track} />
           ))}
         </SearchResults>
