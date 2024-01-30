@@ -18,39 +18,28 @@ import {
 
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState, AppDispatch } from '../../state/store';
-import { searchArtistsAsync, searchTracksAsync } from '../../state/spotify/spotifySlice';
+import { searchAlbumsAsync, searchArtistsAsync, searchTracksAsync } from '../../state/spotify/spotifySlice';
 
 function SearchPage() {
   const dispatch = useDispatch<AppDispatch>();
+  //TODO: do selectors in state
   const accessToken = useSelector((state: RootState) => state.auth.accessToken);
   const tracks = useSelector((state: RootState) => state.spotify.tracks);
   const artists = useSelector((state: RootState) => state.spotify.artists);
+  const albums = useSelector((state: RootState) => state.spotify.albums);
   // TODO: I would create a type or enum
   const [searchType, setSearchType] = useState<"album" | "artist" | "track">('track');
   const [searchTerm, setSearchTerm] = useState('');
-  const [albums, setAlbums] = useState<Album[]>([]);
 
   const handleSearchInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(event.target.value);
   };
 
-  const setArraysEmpty = () => {
-    setAlbums([]);
-  }
-
   const handleSearchSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-
-    const response = await fetch(`https://api.spotify.com/v1/search?q=${searchTerm}&type=${searchType}`, {
-      headers: {
-        'Authorization': `Bearer ${accessToken}`
-      }
-    });
-    const data = await response.json();
-    setArraysEmpty();
     switch (searchType) {
       case 'album':
-        setAlbums(data.albums.items);
+        dispatch(searchAlbumsAsync({ accessToken, query: searchTerm }));
         break;
       case 'artist':
         dispatch(searchArtistsAsync({ accessToken, query: searchTerm }));
