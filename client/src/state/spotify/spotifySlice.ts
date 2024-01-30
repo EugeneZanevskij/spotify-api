@@ -5,12 +5,14 @@ interface SpotifyState {
   user: UserProfile | null;
   topTracks: Track[] | null;
   topArtists: Artist[] | null;
+  tracks: Track[] | null;
 }
 
 const initialState: SpotifyState = {
   user: null,
   topTracks: null,
-  topArtists: null
+  topArtists: null,
+  tracks: null,
 };
 
 const spotifySlice = createSlice({
@@ -36,6 +38,12 @@ const spotifySlice = createSlice({
       })
       .addCase(getTopArtistsAsync.fulfilled, (state, action: PayloadAction<Artist[]>) => {
         state.topArtists = action.payload;
+      })
+      .addCase(searchTracksAsync.pending, () => {
+        console.log('pending search tracks');
+      })
+      .addCase(searchTracksAsync.fulfilled, (state, action: PayloadAction<Track[]>) => {
+        state.tracks = action.payload;
       })
   }
 });
@@ -76,6 +84,19 @@ export const getTopArtistsAsync = createAsyncThunk(
     });
     const json = await response.json();
     return json.items as Artist[];
+  }
+);
+
+export const searchTracksAsync = createAsyncThunk(
+  'spotify/searchTracksAsync',
+  async ({ accessToken, query }: { accessToken: string, query: string }) => {
+    const response = await fetch(`https://api.spotify.com/v1/search?q=${query}&type=track`, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+    const json = await response.json();
+    return json.tracks.items as Track[];
   }
 );
 
