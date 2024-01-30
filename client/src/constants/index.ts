@@ -31,3 +31,11 @@ export const homepageProps: homepageProp[] = [
     icon: FaRepeat
   }
 ];
+
+export const navLinks = [
+  { name: 'Profile', path: '/profile' },
+  { name: 'Search', path: '/search' },
+  { name: 'Top Tracks', path: '/top/tracks' },
+  { name: 'Top Artists', path: '/top/artists' },
+  { name: 'Recently Played', path: '/recently-played' }
+];
