@@ -18,16 +18,16 @@ import {
 
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState, AppDispatch } from '../../state/store';
-import { searchTracksAsync } from '../../state/spotify/spotifySlice';
+import { searchArtistsAsync, searchTracksAsync } from '../../state/spotify/spotifySlice';
 
 function SearchPage() {
   const dispatch = useDispatch<AppDispatch>();
   const accessToken = useSelector((state: RootState) => state.auth.accessToken);
   const tracks = useSelector((state: RootState) => state.spotify.tracks);
+  const artists = useSelector((state: RootState) => state.spotify.artists);
   // TODO: I would create a type or enum
   const [searchType, setSearchType] = useState<"album" | "artist" | "track">('track');
   const [searchTerm, setSearchTerm] = useState('');
-  const [artists, setArtists] = useState<Artist[]>([]);
   const [albums, setAlbums] = useState<Album[]>([]);
 
   const handleSearchInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -35,7 +35,6 @@ function SearchPage() {
   };
 
   const setArraysEmpty = () => {
-    setArtists([]);
     setAlbums([]);
   }
 
@@ -54,7 +53,7 @@ function SearchPage() {
         setAlbums(data.albums.items);
         break;
       case 'artist':
-        setArtists(data.artists.items);
+        dispatch(searchArtistsAsync({ accessToken, query: searchTerm }));
         break;
       case 'track':
         dispatch(searchTracksAsync({ accessToken, query: searchTerm }));
