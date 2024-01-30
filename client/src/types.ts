@@ -92,3 +92,8 @@ export interface Track {
   uri: string;
   is_local: boolean;
 }
+
+export interface RecentlyPlayedTrack {
+  track: Track;
+  played_at: string;
+}
