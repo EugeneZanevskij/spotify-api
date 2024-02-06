@@ -1,5 +1,5 @@
-import styled from 'styled-components';
-import { PageText } from '../../helpers/PageText';
+import styled from "styled-components";
+import { PageText } from "../../helpers/PageText";
 
 const Container = styled.div`
   display: flex;
@@ -22,13 +22,15 @@ const ProfileImage = styled.img`
 `;
 
 const Text = styled(PageText)`
-  color: ${({ color }) => color ?? '#131A22'}; // TODO: I would add a var here and in other places instead of '#131A22'
-  font-size: ${(props) => props.fontSize ? props.fontSize : ".9em"};
+  color: ${({ color }) =>
+    color ??
+    "#131A22"}; // TODO: I would add a var here and in other places instead of '#131A22'
+  font-size: ${(props) => (props.fontSize ? props.fontSize : ".9em")};
 `;
 
 const BoldText = styled(Text)`
   font-weight: bold;
-  padding: .4em;
+  padding: 0.4em;
 `;
 
-export { Container, Title, ProfileImage, Text, BoldText }
+export { Container, Title, ProfileImage, Text, BoldText };

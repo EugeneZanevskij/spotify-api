@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { GiHamburgerMenu } from "react-icons/gi";
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
 
 export const NavbarContainer = styled.nav`
   display: flex;
@@ -11,13 +11,13 @@ export const NavbarContainer = styled.nav`
 `;
 
 export const Logo = styled.img`
-    width: 3rem;
-    cursor:pointer;
+  width: 3rem;
+  cursor: pointer;
 
-    &:hover{
-        border:1px solid #ffffff;
-        border-radius: .2em;
-    }
+  &:hover {
+    border: 1px solid #ffffff;
+    border-radius: 0.2em;
+  }
 `;
 
 export const NavLogo = styled(Link)`
@@ -25,7 +25,7 @@ export const NavLogo = styled(Link)`
   font-weight: bold;
   display: flex;
   align-items: center;
-  gap: .5rem;
+  gap: 0.5rem;
   text-decoration: none;
   color: #000000;
 `;
@@ -39,7 +39,7 @@ export const NavLinks = styled.ul<{ open: boolean }>`
     position: fixed;
     top: 5rem;
     right: 0;
-    display: ${props => (props.open ? 'flex' : 'none')};
+    display: ${(props) => (props.open ? "flex" : "none")};
     flex-direction: column;
     align-items: center;
   }

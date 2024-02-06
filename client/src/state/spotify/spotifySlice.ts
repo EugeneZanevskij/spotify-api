@@ -1,5 +1,11 @@
-import { PayloadAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { Album, Artist, Track, RecentlyPlayedTrack, UserProfile } from '../../types';
+import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import {
+  Album,
+  Artist,
+  Track,
+  RecentlyPlayedTrack,
+  UserProfile,
+} from "../../types";
 
 interface SpotifyState {
   user: UserProfile | null;
@@ -22,145 +28,196 @@ const initialState: SpotifyState = {
 };
 
 const spotifySlice = createSlice({
-  name: 'spotify',
+  name: "spotify",
   initialState,
   reducers: {},
   extraReducers: (builder) => {
     builder
       .addCase(getUserProfileAsync.pending, () => {
-        console.log('pending get user profile');
+        console.log("pending get user profile");
       })
-      .addCase(getUserProfileAsync.fulfilled, (state, action: PayloadAction<UserProfile>) => {
-      state.user = action.payload;
-      })
+      .addCase(
+        getUserProfileAsync.fulfilled,
+        (state, action: PayloadAction<UserProfile>) => {
+          state.user = action.payload;
+        },
+      )
       .addCase(getTopTracksAsync.pending, () => {
-        console.log('pending top tracks');
+        console.log("pending top tracks");
       })
-      .addCase(getTopTracksAsync.fulfilled, (state, action: PayloadAction<Track[]>) => {
-        state.topTracks = action.payload;
-      })
+      .addCase(
+        getTopTracksAsync.fulfilled,
+        (state, action: PayloadAction<Track[]>) => {
+          state.topTracks = action.payload;
+        },
+      )
       .addCase(getTopArtistsAsync.pending, () => {
-        console.log('pending top artists');
+        console.log("pending top artists");
       })
-      .addCase(getTopArtistsAsync.fulfilled, (state, action: PayloadAction<Artist[]>) => {
-        state.topArtists = action.payload;
-      })
+      .addCase(
+        getTopArtistsAsync.fulfilled,
+        (state, action: PayloadAction<Artist[]>) => {
+          state.topArtists = action.payload;
+        },
+      )
       .addCase(searchTracksAsync.pending, () => {
-        console.log('pending search tracks');
+        console.log("pending search tracks");
       })
-      .addCase(searchTracksAsync.fulfilled, (state, action: PayloadAction<Track[]>) => {
-        state.tracks = action.payload;
-      })
+      .addCase(
+        searchTracksAsync.fulfilled,
+        (state, action: PayloadAction<Track[]>) => {
+          state.tracks = action.payload;
+        },
+      )
       .addCase(searchArtistsAsync.pending, () => {
-        console.log('pending search artists');
+        console.log("pending search artists");
       })
-      .addCase(searchArtistsAsync.fulfilled, (state, action: PayloadAction<Artist[]>) => {
-        state.artists = action.payload;
-      })
+      .addCase(
+        searchArtistsAsync.fulfilled,
+        (state, action: PayloadAction<Artist[]>) => {
+          state.artists = action.payload;
+        },
+      )
       .addCase(searchAlbumsAsync.pending, () => {
-        console.log('pending search albums');
+        console.log("pending search albums");
       })
-      .addCase(searchAlbumsAsync.fulfilled, (state, action: PayloadAction<Album[]>) => {
-        state.albums = action.payload;
-      })
+      .addCase(
+        searchAlbumsAsync.fulfilled,
+        (state, action: PayloadAction<Album[]>) => {
+          state.albums = action.payload;
+        },
+      )
       .addCase(getRecentlyPlayedAsync.pending, () => {
-        console.log('pending recently played');
+        console.log("pending recently played");
       })
-      .addCase(getRecentlyPlayedAsync.fulfilled, (state, action: PayloadAction<RecentlyPlayedTrack[]>) => {
-        state.recentlyPlayedTracks = action.payload;
-      })
-  }
+      .addCase(
+        getRecentlyPlayedAsync.fulfilled,
+        (state, action: PayloadAction<RecentlyPlayedTrack[]>) => {
+          state.recentlyPlayedTracks = action.payload;
+        },
+      );
+  },
 });
 
 export const getUserProfileAsync = createAsyncThunk(
-  'spotify/getUserProfileAsync',
+  "spotify/getUserProfileAsync",
   async (accessToken: string) => {
-    const response = await fetch('https://api.spotify.com/v1/me', {
+    const response = await fetch("https://api.spotify.com/v1/me", {
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },
     });
     const json = await response.json();
     return json as UserProfile;
-  }
+  },
 );
 
 export const getTopTracksAsync = createAsyncThunk(
-  'spotify/getTopTracksAsync',
-  async ({ accessToken, timeRange }: { accessToken: string, timeRange: string }) => {
-    const response = await fetch(`https://api.spotify.com/v1/me/top/tracks?time_range=${timeRange}&limit=30`, {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
+  "spotify/getTopTracksAsync",
+  async ({
+    accessToken,
+    timeRange,
+  }: {
+    accessToken: string;
+    timeRange: string;
+  }) => {
+    const response = await fetch(
+      `https://api.spotify.com/v1/me/top/tracks?time_range=${timeRange}&limit=30`,
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
       },
-    });
+    );
     const json = await response.json();
     return json.items as Track[];
-  }
+  },
 );
 
 export const getTopArtistsAsync = createAsyncThunk(
-  'spotify/getTopArtistsAsync',
-  async ({ accessToken, timeRange }: { accessToken: string, timeRange: string }) => {
-    const response = await fetch(`https://api.spotify.com/v1/me/top/artists?time_range=${timeRange}&limit=30`, {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
+  "spotify/getTopArtistsAsync",
+  async ({
+    accessToken,
+    timeRange,
+  }: {
+    accessToken: string;
+    timeRange: string;
+  }) => {
+    const response = await fetch(
+      `https://api.spotify.com/v1/me/top/artists?time_range=${timeRange}&limit=30`,
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
       },
-    });
+    );
     const json = await response.json();
     return json.items as Artist[];
-  }
+  },
 );
 
 export const searchTracksAsync = createAsyncThunk(
-  'spotify/searchTracksAsync',
-  async ({ accessToken, query }: { accessToken: string, query: string }) => {
-    const response = await fetch(`https://api.spotify.com/v1/search?q=${query}&type=track`, {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
+  "spotify/searchTracksAsync",
+  async ({ accessToken, query }: { accessToken: string; query: string }) => {
+    const response = await fetch(
+      `https://api.spotify.com/v1/search?q=${query}&type=track`,
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
       },
-    });
+    );
     const json = await response.json();
     return json.tracks.items as Track[];
-  }
+  },
 );
 
 export const searchArtistsAsync = createAsyncThunk(
-  'spotify/searchArtistsAsync',
-  async ({ accessToken, query }: { accessToken: string, query: string }) => {
-    const response = await fetch(`https://api.spotify.com/v1/search?q=${query}&type=artist`, {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
+  "spotify/searchArtistsAsync",
+  async ({ accessToken, query }: { accessToken: string; query: string }) => {
+    const response = await fetch(
+      `https://api.spotify.com/v1/search?q=${query}&type=artist`,
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
       },
-    });
+    );
     const json = await response.json();
     return json.artists.items as Artist[];
-  }
+  },
 );
 
 export const searchAlbumsAsync = createAsyncThunk(
-  'spotify/searchAlbumsAsync',
-  async ({ accessToken, query }: { accessToken: string, query: string }) => {
-    const response = await fetch(`https://api.spotify.com/v1/search?q=${query}&type=album`, {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
+  "spotify/searchAlbumsAsync",
+  async ({ accessToken, query }: { accessToken: string; query: string }) => {
+    const response = await fetch(
+      `https://api.spotify.com/v1/search?q=${query}&type=album`,
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
       },
-    });
+    );
     const json = await response.json();
     return json.albums.items as Album[];
-  }
+  },
 );
 
 export const getRecentlyPlayedAsync = createAsyncThunk(
-  'spotify/getRecentlyPlayedAsync',
-  async (access_token : string) => {
-    const response = await fetch('https://api.spotify.com/v1/me/player/recently-played', {
-      headers: {
-        Authorization: `Bearer ${access_token}`,
+  "spotify/getRecentlyPlayedAsync",
+  async (access_token: string) => {
+    const response = await fetch(
+      "https://api.spotify.com/v1/me/player/recently-played",
+      {
+        headers: {
+          Authorization: `Bearer ${access_token}`,
+        },
       },
-    });
+    );
     const json = await response.json();
     return json.items as RecentlyPlayedTrack[];
-  }
+  },
 );
 
 export default spotifySlice.reducer;

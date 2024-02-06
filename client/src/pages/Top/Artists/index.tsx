@@ -1,20 +1,30 @@
-import { useEffect, useState } from 'react'
-import { useSearchParams } from 'react-router-dom';
-import { TopContainer, TopTitle, ButtonsContainer, TimeRangeButton, ArtistsContainer } from './styles';
-import ArtistItem from '../../../components/ArtistItem';
+import { useEffect, useState } from "react";
+import { useSearchParams } from "react-router-dom";
+import {
+  TopContainer,
+  TopTitle,
+  ButtonsContainer,
+  TimeRangeButton,
+  ArtistsContainer,
+} from "./styles";
+import ArtistItem from "../../../components/ArtistItem";
 
-import { useSelector, useDispatch } from 'react-redux';
-import { RootState, AppDispatch } from '../../../state/store';
-import { getTopArtistsAsync } from '../../../state/spotify/spotifySlice';
+import { useSelector, useDispatch } from "react-redux";
+import { RootState, AppDispatch } from "../../../state/store";
+import { getTopArtistsAsync } from "../../../state/spotify/spotifySlice";
 
-type TimeRange = 'short_term' | 'medium_term' | 'long_term';
+type TimeRange = "short_term" | "medium_term" | "long_term";
 
 const TopArtistsPage = () => {
   const accessToken = useSelector((state: RootState) => state.auth.accessToken);
   const dispatch = useDispatch<AppDispatch>();
-  const topArtists = useSelector((state: RootState) => state.spotify.topArtists);
+  const topArtists = useSelector(
+    (state: RootState) => state.spotify.topArtists,
+  );
   const [searchParams, setSearchParams] = useSearchParams();
-  const [timeRange, setTimeRange] = useState<TimeRange>(searchParams.get('time_range') as TimeRange || 'short_term');
+  const [timeRange, setTimeRange] = useState<TimeRange>(
+    (searchParams.get("time_range") as TimeRange) || "short_term",
+  );
 
   useEffect(() => {
     dispatch(getTopArtistsAsync({ accessToken, timeRange }));
@@ -26,13 +36,16 @@ const TopArtistsPage = () => {
   };
 
   const buttonsData = [
-    { label: '4 weeks', value: 'short_term' },
-    { label: '6 months', value: 'medium_term' },
-    { label: 'All time', value: 'long_term' },
+    { label: "4 weeks", value: "short_term" },
+    { label: "6 months", value: "medium_term" },
+    { label: "All time", value: "long_term" },
   ];
 
   const getButtonText = () => {
-    return buttonsData.find((button) => button.value === timeRange)?.label || '4 weeks';
+    return (
+      buttonsData.find((button) => button.value === timeRange)?.label ||
+      "4 weeks"
+    );
   };
 
   return (
@@ -51,15 +64,11 @@ const TopArtistsPage = () => {
       </ButtonsContainer>
       <ArtistsContainer>
         {topArtists?.map((topArtist, index) => (
-          <ArtistItem
-          key={topArtist.id}
-          artist={topArtist}
-          index={index + 1}
-          />
+          <ArtistItem key={topArtist.id} artist={topArtist} index={index + 1} />
         ))}
       </ArtistsContainer>
     </TopContainer>
-  )
-}
+  );
+};
 
-export default TopArtistsPage
+export default TopArtistsPage;

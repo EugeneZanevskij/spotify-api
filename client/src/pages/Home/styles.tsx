@@ -25,20 +25,24 @@ export const SpotiContainer = styled.div`
 
 export const Wrapper = styled(ItemWrapper)`
   display: flex;
-  flex-direction: ${(props)=> props.flexDirection ?  props.flexDirection  : "column"};
-  align-items:  ${(props)=>props.alignItems ? props.alignItems  : "center"};
+  flex-direction: ${(props) =>
+    props.flexDirection ? props.flexDirection : "column"};
+  align-items: ${(props) => (props.alignItems ? props.alignItems : "center")};
   gap: 1rem;
 `;
 
 export const Text = styled(PageText)`
-    color:${(props)=>props.color ? props.color :"#131A22" }; // TODO: I would use vars for colors etc
-  font-size:${(props)=>props.fontSize ? props.fontSize :".9em" };
-    text-align:${(props)=>props.textAlign ? props.textAlign : "center" };
+  color: ${(props) =>
+    props.color
+      ? props.color
+      : "#131A22"}; // TODO: I would use vars for colors etc
+  font-size: ${(props) => (props.fontSize ? props.fontSize : ".9em")};
+  text-align: ${(props) => (props.textAlign ? props.textAlign : "center")};
 `;
 
 export const BoldText = styled(Text)`
-    font-weight: bold;
-    padding: .4em;
+  font-weight: bold;
+  padding: 0.4em;
 `;
 
 export const TopLink = styled(Link)`
@@ -51,7 +55,7 @@ export const TopLink = styled(Link)`
   border: none;
   border-radius: 0.25rem;
   cursor: pointer;
-  
+
   &:hover {
     background-color: #cbe669;
     color: #333;
@@ -65,4 +69,4 @@ export const PropsWrapper = styled.div`
   align-items: center;
   max-width: 20rem;
   width: 100%;
-`
+`;

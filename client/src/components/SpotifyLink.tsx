@@ -1,6 +1,6 @@
-import React from 'react';
-import styled from 'styled-components';
-import { FaSpotify } from 'react-icons/fa';
+import React from "react";
+import styled from "styled-components";
+import { FaSpotify } from "react-icons/fa";
 
 const SpotifyIconLink = styled.a`
   display: inline-block;
@@ -11,9 +11,12 @@ const SpotifyIconLink = styled.a`
   margin-top: 0.25rem;
 `;
 
-const SpotifyLink: React.FC<{ url: string, size?: number }> = ({ url, size = 24 }) => (
+const SpotifyLink: React.FC<{ url: string; size?: number }> = ({
+  url,
+  size = 24,
+}) => (
   <SpotifyIconLink href={url} target="_blank" rel="noopener noreferrer">
-    <FaSpotify size={size}/>
+    <FaSpotify size={size} />
   </SpotifyIconLink>
 );
 

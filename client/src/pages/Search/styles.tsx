@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { PageText } from '../../helpers/PageText';
+import { PageText } from "../../helpers/PageText";
 
 const SearchPageWrapper = styled.div`
   display: flex;
@@ -70,13 +70,23 @@ const SearchResults = styled.div`
 `;
 
 const Text = styled(PageText)`
-    color:${(props)=>props.color ? props.color :"#131A22" };
-    font-size:${(props)=>props.fontSize ? props.fontSize :".9em" };
+  color: ${(props) => (props.color ? props.color : "#131A22")};
+  font-size: ${(props) => (props.fontSize ? props.fontSize : ".9em")};
 `;
 
 const BoldText = styled(Text)`
-    font-weight: bold;
-    padding: .4em;
+  font-weight: bold;
+  padding: 0.4em;
 `;
 
-export { SearchPageWrapper, ButtonContainer, StyledButton, SearchForm, SearchInput, SearchButton, SearchResults, BoldText, SearchInputs };
+export {
+  SearchPageWrapper,
+  ButtonContainer,
+  StyledButton,
+  SearchForm,
+  SearchInput,
+  SearchButton,
+  SearchResults,
+  BoldText,
+  SearchInputs,
+};

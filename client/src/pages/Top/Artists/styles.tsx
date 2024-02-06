@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 const TopContainer = styled.div`
   display: flex;
@@ -19,8 +19,8 @@ const ButtonsContainer = styled.div`
 `;
 
 const TimeRangeButton = styled.button<{ active: boolean }>`
-  background-color: ${(props) => (props.active ? '#333' : '#ccc')};
-  color: ${(props) => (props.active ? '#fff' : '#333')};
+  background-color: ${(props) => (props.active ? "#333" : "#ccc")};
+  color: ${(props) => (props.active ? "#fff" : "#333")};
   border: none;
   padding: 8px 16px;
   margin-right: 8px;
@@ -32,8 +32,14 @@ const ArtistsContainer = styled.div`
   flex-wrap: wrap;
   align-items: center;
   justify-content: space-around;
-  gap : 1.5rem;
+  gap: 1.5rem;
   margin-top: 1.5rem;
 `;
 
-export { TopContainer, TopTitle, ButtonsContainer, TimeRangeButton, ArtistsContainer };
+export {
+  TopContainer,
+  TopTitle,
+  ButtonsContainer,
+  TimeRangeButton,
+  ArtistsContainer,
+};

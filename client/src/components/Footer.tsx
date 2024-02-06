@@ -1,5 +1,5 @@
-import styled from 'styled-components'
-import { PageText } from '../helpers/PageText';
+import styled from "styled-components";
+import { PageText } from "../helpers/PageText";
 
 const FooterContainer = styled.footer`
   display: flex;
@@ -11,12 +11,12 @@ const FooterContainer = styled.footer`
 `;
 
 const Text = styled(PageText)`
-    font-size:${(props)=>props.fontSize ? props.fontSize :".9em" };
+  font-size: ${(props) => (props.fontSize ? props.fontSize : ".9em")};
 `;
 
 const BoldText = styled(Text)`
-    font-weight: bold;
-    padding: .4em;
+  font-weight: bold;
+  padding: 0.4em;
 `;
 
 const Footer = () => {
@@ -24,13 +24,13 @@ const Footer = () => {
   return (
     <FooterContainer>
       <Text>
-        © {currentYear} - <BoldText fontSize='1.2em'>SpotiStats</BoldText>
+        © {currentYear} - <BoldText fontSize="1.2em">SpotiStats</BoldText>
       </Text>
       <Text>
-        Made by <BoldText fontSize='1.2em'>Eugene Zanevskij</BoldText>
+        Made by <BoldText fontSize="1.2em">Eugene Zanevskij</BoldText>
       </Text>
     </FooterContainer>
-  )
-}
+  );
+};
 
-export default Footer
+export default Footer;

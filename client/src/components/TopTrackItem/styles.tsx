@@ -1,6 +1,6 @@
-import styled from 'styled-components';
-import { ItemWrapper } from '../../helpers/ItemWrapper';
-import { PageText } from '../../helpers/PageText';
+import styled from "styled-components";
+import { ItemWrapper } from "../../helpers/ItemWrapper";
+import { PageText } from "../../helpers/PageText";
 
 const TrackItem = styled.div`
   display: grid;
@@ -12,11 +12,12 @@ const TrackItem = styled.div`
 
 const TrackContainer = styled(ItemWrapper)`
   display: flex;
-  flex-direction: ${(props)=>props.flexDirection ?  props.flexDirection  : "column"};
+  flex-direction: ${(props) =>
+    props.flexDirection ? props.flexDirection : "column"};
   justify-content: space-between;
-  align-items:  ${(props)=>props.alignItems ? props.alignItems  : "center"};
-  gap: ${(props)=>props.gap ? props.gap : "0.5rem"};
-`
+  align-items: ${(props) => (props.alignItems ? props.alignItems : "center")};
+  gap: ${(props) => (props.gap ? props.gap : "0.5rem")};
+`;
 
 const TrackImage = styled.img`
   width: 50px;
@@ -26,13 +27,13 @@ const TrackImage = styled.img`
 `;
 
 const Text = styled(PageText)`
-    color:${(props)=>props.color ? props.color :"#131A22" };
-    font-size:${(props)=>props.fontSize ? props.fontSize :".9em" };
+  color: ${(props) => (props.color ? props.color : "#131A22")};
+  font-size: ${(props) => (props.fontSize ? props.fontSize : ".9em")};
 `;
 
 const BoldText = styled(Text)`
-    font-weight: bold;
-    padding: .4em;
+  font-weight: bold;
+  padding: 0.4em;
 `;
 
 export { TrackItem, TrackContainer, TrackImage, Text, BoldText };

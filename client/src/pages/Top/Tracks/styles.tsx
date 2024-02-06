@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 const TopTracksContainer = styled.div`
   display: flex;
@@ -19,8 +19,8 @@ const ButtonsContainer = styled.div`
 `;
 
 const TimeRangeButton = styled.button<{ active: boolean }>`
-  background-color: ${(props) => (props.active ? '#333' : '#ccc')};
-  color: ${(props) => (props.active ? '#fff' : '#333')};
+  background-color: ${(props) => (props.active ? "#333" : "#ccc")};
+  color: ${(props) => (props.active ? "#fff" : "#333")};
   border: none;
   padding: 8px 16px;
   margin-right: 8px;
@@ -37,4 +37,10 @@ const TopTrackItems = styled.div`
   width: 100%;
 `;
 
-export { TopTracksContainer, TopTracksTitle, ButtonsContainer, TimeRangeButton, TopTrackItems };
+export {
+  TopTracksContainer,
+  TopTracksTitle,
+  ButtonsContainer,
+  TimeRangeButton,
+  TopTrackItems,
+};
