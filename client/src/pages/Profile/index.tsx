@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
 import LogoutButton from '../../components/LogoutButton';
 import SpotifyLink from '../../components/SpotifyLink';
 import { Container, ProfileImage, Text, Title, BoldText } from './styles';
@@ -19,8 +19,8 @@ const Profile = () => {
     <Container>
       <Title>User Profile</Title>
       {user?.display_name ? (
-        <>
           /* // TODO: I would support cases when profile could have not all keys from expected */
+        <>
           <ProfileImage src={user?.images[1].url} alt={user?.display_name} />
           <Text fontSize='1em'>Name: <BoldText fontSize='1.2em'>{user?.display_name}</BoldText></Text>
           <Text fontSize='1.1em' color='gray'>ID: {user?.id}</Text>

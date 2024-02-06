@@ -2,7 +2,7 @@ import LogoutButton from '../../components/LogoutButton';
 import Login from '../../components/Login';
 import { HomeContainer, Wrapper, SpotiContainer, BoldText, Text, TopLink, PropsWrapper } from './styles';
 import { homepageProps } from '../../constants';
-
+import React from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../state/store';
 

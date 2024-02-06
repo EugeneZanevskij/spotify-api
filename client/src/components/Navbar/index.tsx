@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useLocation } from "react-router-dom";  // TODO: add linter into app, please
 import LogoImage from '../../assets/Logo.png';
 import { NavbarContainer, NavLogo, Logo, NavLinks, NavItem, NavLink, BurgerMenu } from './styles';
