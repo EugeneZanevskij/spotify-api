@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import LogoutButton from '../../components/LogoutButton';
 import SpotifyLink from '../../components/SpotifyLink';
 import { Container, ProfileImage, Text, Title, BoldText } from './styles';
