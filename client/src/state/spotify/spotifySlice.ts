@@ -15,6 +15,7 @@ interface SpotifyState {
   artists: Artist[] | null;
   albums: Album[] | null;
   recentlyPlayedTracks: RecentlyPlayedTrack[] | null;
+  loading: boolean;
 }
 
 const initialState: SpotifyState = {
@@ -25,6 +26,7 @@ const initialState: SpotifyState = {
   artists: null,
   albums: null,
   recentlyPlayedTracks: null,
+  loading: false,
 };
 
 const spotifySlice = createSlice({
@@ -33,13 +35,15 @@ const spotifySlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(getUserProfileAsync.pending, () => {
+      .addCase(getUserProfileAsync.pending, (state) => {
         console.log("pending get user profile");
+        state.loading = true;
       })
       .addCase(
         getUserProfileAsync.fulfilled,
         (state, action: PayloadAction<UserProfile>) => {
           state.user = action.payload;
+          state.loading = false;
         },
       )
       .addCase(getTopTracksAsync.pending, () => {
