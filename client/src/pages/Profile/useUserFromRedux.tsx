@@ -11,7 +11,9 @@ const useUserFromRedux = () => {
   const error = !accessToken;
 
   useEffect(() => {
-    dispatch(getUserProfileAsync(accessToken));
+    if (accessToken) {
+      dispatch(getUserProfileAsync(accessToken));
+    }
   }, [accessToken, dispatch]);
 
   return { user, loading, error };
