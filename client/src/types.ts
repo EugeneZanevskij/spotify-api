@@ -14,10 +14,6 @@ export interface UserProfile {
   product: string;
   type: string;
   uri: string;
-  error: {
-    status: number;
-    message: string;
-  };
 }
 
 interface Image {

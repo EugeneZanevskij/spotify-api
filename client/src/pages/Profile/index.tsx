@@ -9,10 +9,10 @@ const Profile = () => {
   return (
     <Container>
       <Title>User Profile</Title>
-      {loading && <Text fontSize="1.1em">Loading profile...</Text>}
       {error && (
         <Text fontSize="1.1em">Error: Failed to fetch user profile</Text>
       )}
+      {loading && <Text fontSize="1.1em">Loading profile...</Text>}
       {user?.display_name && (
         <>
           <ProfileImage src={user?.images[1].url} alt={user?.display_name} />
