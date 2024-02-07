@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import {
   TopContainer,
@@ -8,27 +8,15 @@ import {
   ArtistsContainer,
 } from "./styles";
 import ArtistItem from "../../../components/ArtistItem";
-
-import { useSelector, useDispatch } from "react-redux";
-import { RootState, AppDispatch } from "../../../state/store";
-import { getTopArtistsAsync } from "../../../state/spotify/spotifySlice";
-
-type TimeRange = "short_term" | "medium_term" | "long_term";
+import { TimeRange } from "../../../types";
+import useTopArtistsFromRedux from "./useTopArtistsFromRedux";
 
 const TopArtistsPage = () => {
-  const accessToken = useSelector((state: RootState) => state.auth.accessToken);
-  const dispatch = useDispatch<AppDispatch>();
-  const topArtists = useSelector(
-    (state: RootState) => state.spotify.topArtists,
-  );
   const [searchParams, setSearchParams] = useSearchParams();
   const [timeRange, setTimeRange] = useState<TimeRange>(
     (searchParams.get("time_range") as TimeRange) || "short_term",
   );
-
-  useEffect(() => {
-    dispatch(getTopArtistsAsync({ accessToken, timeRange }));
-  }, [timeRange, accessToken, dispatch]);
+  const { topArtists, loading, error } = useTopArtistsFromRedux(timeRange);
 
   const handleTimeRangeChange = (newTimeRange: string) => {
     setTimeRange(newTimeRange as TimeRange);
@@ -63,6 +51,8 @@ const TopArtistsPage = () => {
         ))}
       </ButtonsContainer>
       <ArtistsContainer>
+        {error && <h2>Error: Failed to fetch top artists</h2>}
+        {loading && <h2>Loading top artists...</h2>}
         {topArtists?.map((topArtist, index) => (
           <ArtistItem key={topArtist.id} artist={topArtist} index={index + 1} />
         ))}

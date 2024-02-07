@@ -23,8 +23,8 @@ const TopTrackItems = ({ timeRange, getButtonText }: Props) => {
   const { topTracks, loading, error } = useTopTracksFromRedux(timeRange);
   return (
     <TopTrackContainer>
-      {error && <h2>Error: Failed to fetch user profile</h2>}
-      {loading && <h2>Loading profile...</h2>}
+      {error && <h2>Error: Failed to fetch top tracks</h2>}
+      {loading && <h2>Loading top tracks...</h2>}
       {topTracks?.map((topTrack, index) => (
         <TopTrackItem key={topTrack.id} track={topTrack} index={index} />
       ))}
