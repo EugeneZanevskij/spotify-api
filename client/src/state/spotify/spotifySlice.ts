@@ -46,22 +46,26 @@ const spotifySlice = createSlice({
           state.loading = false;
         },
       )
-      .addCase(getTopTracksAsync.pending, () => {
+      .addCase(getTopTracksAsync.pending, (state) => {
         console.log("pending top tracks");
+        state.loading = true;
       })
       .addCase(
         getTopTracksAsync.fulfilled,
         (state, action: PayloadAction<Track[]>) => {
           state.topTracks = action.payload;
+          state.loading = false;
         },
       )
-      .addCase(getTopArtistsAsync.pending, () => {
+      .addCase(getTopArtistsAsync.pending, (state) => {
         console.log("pending top artists");
+        state.loading = true;
       })
       .addCase(
         getTopArtistsAsync.fulfilled,
         (state, action: PayloadAction<Artist[]>) => {
           state.topArtists = action.payload;
+          state.loading = false;
         },
       )
       .addCase(searchTracksAsync.pending, () => {
