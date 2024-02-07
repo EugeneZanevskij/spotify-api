@@ -27,20 +27,9 @@ const TimeRangeButton = styled.button<{ active: boolean }>`
   cursor: pointer;
 `;
 
-const TopTrackItems = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-  margin-top: 1rem;
-  width: 100%;
-`;
-
 export {
   TopTracksContainer,
   TopTracksTitle,
   ButtonsContainer,
   TimeRangeButton,
-  TopTrackItems,
 };

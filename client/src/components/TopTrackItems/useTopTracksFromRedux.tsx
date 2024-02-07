@@ -1,9 +1,9 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getTopTracksAsync } from "../../../state/spotify/spotifySlice";
-import { RootState, AppDispatch } from "../../../state/store";
+import { getTopTracksAsync } from "../../state/spotify/spotifySlice";
+import { RootState, AppDispatch } from "../../state/store";
+import { TimeRange } from "../../types";
 
-type TimeRange = "short_term" | "medium_term" | "long_term";
 const useTopTracksFromRedux = (timeRange: TimeRange) => {
   const accessToken = useSelector((state: RootState) => state.auth.accessToken);
   const dispatch = useDispatch<AppDispatch>();
@@ -15,7 +15,7 @@ const useTopTracksFromRedux = (timeRange: TimeRange) => {
     if (accessToken) {
       dispatch(getTopTracksAsync({ accessToken, timeRange }));
     }
-  }, [accessToken, dispatch]);
+  }, [timeRange, accessToken, dispatch]);
 
   return { topTracks, loading, error };
 };
