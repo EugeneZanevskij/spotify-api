@@ -88,40 +88,68 @@ const spotifySlice = createSlice({
           state.loading = false;
         },
       )
-      .addCase(searchTracksAsync.pending, () => {
+      .addCase(searchTracksAsync.pending, (state) => {
         console.log("pending search tracks");
+        state.loading = true;
       })
       .addCase(
         searchTracksAsync.fulfilled,
-        (state, action: PayloadAction<Track[]>) => {
-          state.tracks = action.payload;
+        (state, action: PayloadAction<Track[] | TError>) => {
+          if ("message" in action.payload) {
+            state.error = action.payload;
+          } else {
+            state.tracks = action.payload;
+            state.error = null;
+          }
+          state.loading = false;
         },
       )
-      .addCase(searchArtistsAsync.pending, () => {
+      .addCase(searchArtistsAsync.pending, (state) => {
         console.log("pending search artists");
+        state.loading = true;
       })
       .addCase(
         searchArtistsAsync.fulfilled,
-        (state, action: PayloadAction<Artist[]>) => {
-          state.artists = action.payload;
+        (state, action: PayloadAction<Artist[] | TError>) => {
+          if ("message" in action.payload) {
+            state.error = action.payload;
+          } else {
+            state.artists = action.payload;
+            state.error = null;
+          }
+          state.loading = false;
         },
       )
-      .addCase(searchAlbumsAsync.pending, () => {
+      .addCase(searchAlbumsAsync.pending, (state) => {
         console.log("pending search albums");
+        state.loading = true;
       })
       .addCase(
         searchAlbumsAsync.fulfilled,
-        (state, action: PayloadAction<Album[]>) => {
-          state.albums = action.payload;
+        (state, action: PayloadAction<Album[] | TError>) => {
+          if ("message" in action.payload) {
+            state.error = action.payload;
+          } else {
+            state.albums = action.payload;
+            state.error = null;
+          }
+          state.loading = false;
         },
       )
-      .addCase(getRecentlyPlayedAsync.pending, () => {
+      .addCase(getRecentlyPlayedAsync.pending, (state) => {
         console.log("pending recently played");
+        state.loading = true;
       })
       .addCase(
         getRecentlyPlayedAsync.fulfilled,
-        (state, action: PayloadAction<RecentlyPlayedTrack[]>) => {
-          state.recentlyPlayedTracks = action.payload;
+        (state, action: PayloadAction<RecentlyPlayedTrack[] | TError>) => {
+          if ("message" in action.payload) {
+            state.error = action.payload;
+          } else {
+            state.recentlyPlayedTracks = action.payload;
+            state.error = null;
+          }
+          state.loading = false;
         },
       );
   },
@@ -196,7 +224,9 @@ export const searchTracksAsync = createAsyncThunk(
       },
     );
     const json = await response.json();
-    return json.tracks.items as Track[];
+    return response.ok
+      ? (json.tracks.items as Track[])
+      : (json.error as TError);
   },
 );
 
@@ -212,7 +242,9 @@ export const searchArtistsAsync = createAsyncThunk(
       },
     );
     const json = await response.json();
-    return json.artists.items as Artist[];
+    return response.ok
+      ? (json.artists.items as Artist[])
+      : (json.error as TError);
   },
 );
 
@@ -228,7 +260,9 @@ export const searchAlbumsAsync = createAsyncThunk(
       },
     );
     const json = await response.json();
-    return json.albums.items as Album[];
+    return response.ok
+      ? (json.albums.items as Album[])
+      : (json.error as TError);
   },
 );
 
@@ -244,7 +278,9 @@ export const getRecentlyPlayedAsync = createAsyncThunk(
       },
     );
     const json = await response.json();
-    return json.items as RecentlyPlayedTrack[];
+    return response.ok
+      ? (json.items as RecentlyPlayedTrack[])
+      : (json.error as TError);
   },
 );
 
