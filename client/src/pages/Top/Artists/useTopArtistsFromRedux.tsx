@@ -11,12 +11,10 @@ const useTopArtistsFromRedux = (timeRange: TimeRange) => {
     (state: RootState) => state.spotify.topArtists,
   );
   const loading = useSelector((state: RootState) => state.spotify.loading);
-  const error = !accessToken;
+  const error = useSelector((state: RootState) => state.spotify.error);
 
   useEffect(() => {
-    if (accessToken) {
-      dispatch(getTopArtistsAsync({ accessToken, timeRange }));
-    }
+    dispatch(getTopArtistsAsync({ accessToken, timeRange }));
   }, [timeRange, accessToken, dispatch]);
 
   return { topArtists, loading, error };

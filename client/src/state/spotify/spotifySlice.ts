@@ -78,8 +78,13 @@ const spotifySlice = createSlice({
       })
       .addCase(
         getTopArtistsAsync.fulfilled,
-        (state, action: PayloadAction<Artist[]>) => {
-          state.topArtists = action.payload;
+        (state, action: PayloadAction<Artist[] | TError>) => {
+          if ("message" in action.payload) {
+            state.error = action.payload;
+          } else {
+            state.topArtists = action.payload;
+            state.error = null;
+          }
           state.loading = false;
         },
       )
@@ -175,7 +180,7 @@ export const getTopArtistsAsync = createAsyncThunk(
       },
     );
     const json = await response.json();
-    return json.items as Artist[];
+    return response.ok ? (json.items as Artist[]) : (json.error as TError);
   },
 );
 
