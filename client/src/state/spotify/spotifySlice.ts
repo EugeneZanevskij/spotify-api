@@ -51,7 +51,7 @@ const spotifySlice = createSlice({
             state.error = action.payload;
           } else {
             state.user = action.payload as UserProfile;
-            state.error = null; // Reset error to null when payload is not an error
+            state.error = null;
           }
           state.loading = false;
         },
@@ -62,8 +62,13 @@ const spotifySlice = createSlice({
       })
       .addCase(
         getTopTracksAsync.fulfilled,
-        (state, action: PayloadAction<Track[]>) => {
-          state.topTracks = action.payload;
+        (state, action: PayloadAction<Track[] | TError>) => {
+          if ("message" in action.payload) {
+            state.error = action.payload;
+          } else {
+            state.topTracks = action.payload;
+            state.error = null;
+          }
           state.loading = false;
         },
       )
@@ -148,7 +153,7 @@ export const getTopTracksAsync = createAsyncThunk(
       },
     );
     const json = await response.json();
-    return json.items as Track[];
+    return response.ok ? (json.items as Track[]) : (json.error as TError);
   },
 );
 

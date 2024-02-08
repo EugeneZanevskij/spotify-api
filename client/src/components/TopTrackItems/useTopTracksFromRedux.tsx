@@ -9,12 +9,10 @@ const useTopTracksFromRedux = (timeRange: TimeRange) => {
   const dispatch = useDispatch<AppDispatch>();
   const topTracks = useSelector((state: RootState) => state.spotify.topTracks);
   const loading = useSelector((state: RootState) => state.spotify.loading);
-  const error = !accessToken;
+  const error = useSelector((state: RootState) => state.spotify.error);
 
   useEffect(() => {
-    if (accessToken) {
-      dispatch(getTopTracksAsync({ accessToken, timeRange }));
-    }
+    dispatch(getTopTracksAsync({ accessToken, timeRange }));
   }, [timeRange, accessToken, dispatch]);
 
   return { topTracks, loading, error };
