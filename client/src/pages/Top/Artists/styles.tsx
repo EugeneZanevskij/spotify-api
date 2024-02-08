@@ -6,6 +6,7 @@ const TopContainer = styled.div`
   align-items: center;
   justify-content: center;
   padding: 1.5rem;
+  gap: 0.5rem;
 `;
 
 const TopTitle = styled.h1`

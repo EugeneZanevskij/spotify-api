@@ -3,6 +3,7 @@ import TopTrackItem from "../TopTrackItem";
 import PlaylistButton from "../PlaylistButton";
 import { TimeRange } from "../../types";
 import useTopTracksFromRedux from "./useTopTracksFromRedux";
+import Error from "../Error";
 
 const TopTrackContainer = styled.div`
   display: flex;
@@ -23,8 +24,13 @@ const TopTrackItems = ({ timeRange, getButtonText }: Props) => {
   const { topTracks, loading, error } = useTopTracksFromRedux(timeRange);
   return (
     <TopTrackContainer>
-      {error && <h2>Error: Failed to fetch top tracks</h2>}
       {loading && <h2>Loading top tracks...</h2>}
+      {error && (
+        <>
+          <h2>Failed to fetch top tracks</h2>
+          <Error error={error} />
+        </>
+      )}
       {topTracks?.map((topTrack, index) => (
         <TopTrackItem key={topTrack.id} track={topTrack} index={index} />
       ))}

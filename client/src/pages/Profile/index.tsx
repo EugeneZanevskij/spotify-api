@@ -1,3 +1,4 @@
+import Error from "../../components/Error";
 import LogoutButton from "../../components/LogoutButton";
 import SpotifyLink from "../../components/SpotifyLink";
 import { Container, ProfileImage, Text, Title, BoldText } from "./styles";
@@ -9,10 +10,13 @@ const Profile = () => {
   return (
     <Container>
       <Title>User Profile</Title>
-      {error && (
-        <Text fontSize="1.1em">Error: Failed to fetch user profile</Text>
-      )}
       {loading && <Text fontSize="1.1em">Loading profile...</Text>}
+      {error && (
+        <>
+          <BoldText fontSize="1.1em">Failed to fetch user profile</BoldText>
+          <Error error={error} />
+        </>
+      )}
       {user?.display_name && (
         <>
           <ProfileImage src={user?.images[1].url} alt={user?.display_name} />

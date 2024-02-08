@@ -10,6 +10,7 @@ import {
 import ArtistItem from "../../../components/ArtistItem";
 import { TimeRange } from "../../../types";
 import useTopArtistsFromRedux from "./useTopArtistsFromRedux";
+import Error from "../../../components/Error";
 
 const TopArtistsPage = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -50,9 +51,14 @@ const TopArtistsPage = () => {
           </TimeRangeButton>
         ))}
       </ButtonsContainer>
+      {loading && <h2>Loading top artists...</h2>}
+      {error && (
+        <>
+          <h2>Error: Failed to fetch top artists</h2>
+          <Error error={error} />
+        </>
+      )}
       <ArtistsContainer>
-        {error && <h2>Error: Failed to fetch top artists</h2>}
-        {loading && <h2>Loading top artists...</h2>}
         {topArtists?.map((topArtist, index) => (
           <ArtistItem key={topArtist.id} artist={topArtist} index={index + 1} />
         ))}

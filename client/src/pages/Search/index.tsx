@@ -4,6 +4,7 @@ import { Album, Artist, SearchType, Track } from "../../types";
 import ArtistItem from "../../components/ArtistItem";
 import AlbumItem from "../../components/AlbumItem";
 import TrackItem from "../../components/TrackItem";
+import Error from "../../components/Error";
 import {
   SearchPageWrapper,
   ButtonContainer,
@@ -33,7 +34,7 @@ function SearchPage() {
     setSearchTerm(event.target.value);
   };
 
-  const handleSearchTypeChange = (type: "album" | "artist" | "track") => {
+  const handleSearchTypeChange = (type: SearchType) => {
     setIsUpdated(false);
     setSearchType(type);
   };
@@ -73,12 +74,8 @@ function SearchPage() {
           <SearchButton type="submit">Search</SearchButton>
         </SearchInputs>
       </SearchForm>
-      {loading && <p>Loading...</p>}
-      {error && (
-        <p>
-          {error.status} - {error.message}
-        </p>
-      )}
+      {loading && <BoldText>Loading...</BoldText>}
+      {error && <Error error={error} />}
       {!error && !loading && (
         <>
           {searchType === "artist" && (
