@@ -12,7 +12,7 @@ import Footer from "./components/Footer";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState, AppDispatch } from "./state/store";
 import { getTokenAsync } from "./state/auth/authSlice";
-import RecentlyPlayedPage from "./pages/RecentlyPlayed";
+import RecentlyPlayedPage from "./pages/RecentlyPlayed/RecentlyPlayed";
 
 const App = () => {
   const dispatch = useDispatch<AppDispatch>();

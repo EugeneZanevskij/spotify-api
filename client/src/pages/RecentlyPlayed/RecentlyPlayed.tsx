@@ -1,9 +1,7 @@
-import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { RootState, AppDispatch } from "../state/store";
-import { getRecentlyPlayedAsync } from "../state/spotify/spotifySlice";
-import RecentlyPlayedTrackItem from "../components/RecentlyPlayedTrack";
+import RecentlyPlayedTrackItem from "../../components/RecentlyPlayedTrack";
 import styled from "styled-components";
+import useRecentlyPlayedFromRedux from "./useRecentlyPlayedFromRedux";
+import Error from "../../components/Error";
 
 const RecentlyPlayedPageContainer = styled.div`
   padding: 1.5rem;
@@ -23,19 +21,17 @@ const RecentlyPlayed = styled.div`
 `;
 
 const RecentlyPlayedPage: React.FC = () => {
-  const dispatch = useDispatch<AppDispatch>();
-  const accessToken = useSelector((state: RootState) => state.auth.accessToken);
-  const recentlyPlayedTracks = useSelector(
-    (state: RootState) => state.spotify.recentlyPlayedTracks,
-  );
-
-  useEffect(() => {
-    dispatch(getRecentlyPlayedAsync(accessToken));
-  }, [accessToken, dispatch]);
-
+  const { recentlyPlayedTracks, loading, error } = useRecentlyPlayedFromRedux();
   return (
     <RecentlyPlayedPageContainer>
       <Title>Recently Played Tracks</Title>
+      {loading && <h2>Loading top tracks...</h2>}
+      {error && (
+        <>
+          <h2>Failed to fetch top tracks</h2>
+          <Error error={error} />
+        </>
+      )}
       {recentlyPlayedTracks && (
         <RecentlyPlayed>
           {recentlyPlayedTracks.map((recentlyPlayedTrack) => (
