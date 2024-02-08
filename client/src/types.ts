@@ -99,3 +99,8 @@ export interface RecentlyPlayedTrack {
 }
 
 export type TimeRange = "short_term" | "medium_term" | "long_term";
+
+export type TError = {
+  status: number;
+  message: string;
+};

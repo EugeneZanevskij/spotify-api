@@ -5,6 +5,7 @@ import {
   Track,
   RecentlyPlayedTrack,
   UserProfile,
+  TError,
 } from "../../types";
 
 interface SpotifyState {
@@ -16,6 +17,8 @@ interface SpotifyState {
   albums: Album[] | null;
   recentlyPlayedTracks: RecentlyPlayedTrack[] | null;
   loading: boolean;
+  error: TError | null;
+  status: number | null;
 }
 
 const initialState: SpotifyState = {
@@ -27,6 +30,8 @@ const initialState: SpotifyState = {
   albums: null,
   recentlyPlayedTracks: null,
   loading: false,
+  error: null,
+  status: null,
 };
 
 const spotifySlice = createSlice({
@@ -41,8 +46,13 @@ const spotifySlice = createSlice({
       })
       .addCase(
         getUserProfileAsync.fulfilled,
-        (state, action: PayloadAction<UserProfile>) => {
-          state.user = action.payload;
+        (state, action: PayloadAction<UserProfile | TError>) => {
+          if ("message" in action.payload) {
+            state.error = action.payload;
+          } else {
+            state.user = action.payload as UserProfile;
+            state.error = null; // Reset error to null when payload is not an error
+          }
           state.loading = false;
         },
       )
@@ -116,7 +126,7 @@ export const getUserProfileAsync = createAsyncThunk(
       },
     });
     const json = await response.json();
-    return json as UserProfile;
+    return response.ok ? (json as UserProfile) : (json.error as TError);
   },
 );
 

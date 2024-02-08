@@ -8,12 +8,10 @@ const useUserFromRedux = () => {
   const dispatch = useDispatch<AppDispatch>();
   const user = useSelector((state: RootState) => state.spotify.user);
   const loading = useSelector((state: RootState) => state.spotify.loading);
-  const error = !accessToken;
+  const error = useSelector((state: RootState) => state.spotify.error);
 
   useEffect(() => {
-    if (accessToken) {
-      dispatch(getUserProfileAsync(accessToken));
-    }
+    dispatch(getUserProfileAsync(accessToken));
   }, [accessToken, dispatch]);
 
   return { user, loading, error };
