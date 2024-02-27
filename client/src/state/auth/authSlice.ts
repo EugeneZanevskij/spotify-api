@@ -2,10 +2,12 @@ import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 interface AuthState {
   accessToken: string;
+  id: number;
 }
 
 const initialState: AuthState = {
   accessToken: "",
+  id: 0,
 };
 
 const authSlice = createSlice({
@@ -19,8 +21,9 @@ const authSlice = createSlice({
       })
       .addCase(
         getTokenAsync.fulfilled,
-        (state, action: PayloadAction<string>) => {
-          state.accessToken = action.payload;
+        (state, action: PayloadAction<{ accessToken: string; id: number }>) => {
+          state.accessToken = action.payload.accessToken;
+          state.id = action.payload.id;
         },
       );
   },
@@ -31,7 +34,10 @@ export const getTokenAsync = createAsyncThunk(
   async () => {
     const response = await fetch("http://localhost:7000/token");
     const json = await response.json();
-    return json.access_token as string;
+    return {
+      accessToken: json.data.access_token,
+      id: json.data.id,
+    };
   },
 );
 
