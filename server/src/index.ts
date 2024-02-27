@@ -173,6 +173,34 @@ app.get('/logout', (req, res) => {
   }
 });
 
+app.post('/top-tracks/short-term', async (req: Request, res: Response) => {
+  try {
+    const { userId, tracks } = req.body;
+    // const userId = 5;
+    // const tracks = JSON.stringify([{'name': 'wow'}, {'name': 'wowwwww'}])
+    const user = await prisma.user.findUnique({
+      where: { id: userId },
+      include: { topTracks: true },
+    });
+
+    const createdTopTracks = await prisma.shortTermTracks.create({
+      data: {
+        topTracks: {
+          // connect: { id: userId },
+          connect: { id: user?.topTracks?.id },
+        },
+        trackData: tracks,
+        date: new Date().toLocaleDateString(),
+      },
+    });
+
+    res.status(201).json(createdTopTracks);
+  } catch (error) {
+    console.error('Error creating top tracks:', error);
+    res.status(500).json({ error: 'Failed to create top tracks' });
+  }
+});
+
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
