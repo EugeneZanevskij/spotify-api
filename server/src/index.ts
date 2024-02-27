@@ -2,6 +2,7 @@ import express, { Express, Request, Response , Application, NextFunction } from 
 import * as dotenv from "dotenv";
 import cors from "cors";
 import querystring from "querystring";
+import { PrismaClient } from '@prisma/client';
 
 dotenv.config();
 
@@ -12,6 +13,7 @@ if (!process.env.PORT) {
 const PORT = parseInt(process.env.PORT as string, 10)
 
 const app: Application = express();
+const prisma = new PrismaClient();
 
 app.use(express.json());
 app.use(express.urlencoded({extended : true}));
@@ -121,10 +123,41 @@ app.get('/callback', async function (req, res) {
   }
 });
 
-app.get('/token', checkAccessToken, (req, res) => {
-  res.json(
+app.get('/token', checkAccessToken, async (req, res) => {
+  const profileResponse = await fetch('https://api.spotify.com/v1/me', {
+    headers: {
+      Authorization: `Bearer ${access_token}`,
+    },
+  });
+  const json = await profileResponse.json();
+  const email = json.email as string;
+
+  async function createOrSkipUser(email : string) {
+    try{ 
+    const user = await prisma.user.upsert({
+      where: { email: email },
+      update: {},
+      create: {
+        email,
+        topTracks: {
+          create: {}
+        }
+      }
+    });
+    return user;
+    }
+    catch (error) {
+      console.log(error);
+    }
+  }
+  const user = await createOrSkipUser(email);
+  res.status(200).json(
     {
-      access_token
+      data: {
+        id: user?.id || 0,
+        access_token
+      },
+      message: 'ID and access_token retrieved successfully'
     }
   );
 });
