@@ -12,3 +12,42 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model User {
+  id              Int      @id @default(autoincrement())
+  email        String      @unique
+  topTracks       TopTracks?
+}
+
+model TopTracks {
+  id        Int        @id @default(autoincrement())
+  shortTerm ShortTermTracks[]
+  mediumTerm MediumTermTracks[]
+  longTerm  LongTermTracks[]
+  user      User      @relation(fields: [userId], references: [id])
+  userId    Int        @unique
+}
+
+model ShortTermTracks {
+  id         Int      @id @default(autoincrement())
+  date       String
+  trackData  Json
+  topTracks  TopTracks @relation(fields: [topTracksId], references: [id])
+  topTracksId Int
+}
+
+model MediumTermTracks {
+  id         Int      @id @default(autoincrement())
+  date       String
+  trackData  Json
+  topTracks  TopTracks @relation(fields: [topTracksId], references: [id])
+  topTracksId Int
+}
+
+model LongTermTracks {
+  id         Int      @id @default(autoincrement())
+  date       String
+  trackData  Json
+  topTracks  TopTracks @relation(fields: [topTracksId], references: [id])
+  topTracksId Int
+}
