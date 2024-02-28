@@ -227,13 +227,13 @@ app.get('/top-tracks/short-term', async (req: Request, res: Response) => {
     const comparedTracks = spotifyTopTracks.map((spotifyTrack: Track, index) => {
       const indexOfRecentTrack = recentTopTracksData?.indexOf(spotifyTrack.id);
       if (indexOfRecentTrack === -1) {
-        return { change: 'new' };
+        return { change: 'new', ...spotifyTrack };
       } else if (index === indexOfRecentTrack ) {
-        return { change: 'equal' };
+        return { change: 'equal', ...spotifyTrack };
       } else if (index < indexOfRecentTrack) {
-        return { change: 'up' };
+        return { change: 'up', ...spotifyTrack };
       } else {
-        return { change: 'down' };
+        return { change: 'down', ...spotifyTrack };
       }
     });
 
@@ -246,30 +246,7 @@ app.get('/top-tracks/short-term', async (req: Request, res: Response) => {
 
 app.post('/top-tracks/short-term', async (req: Request, res: Response) => {
   try {
-    // const { userId, tracks } = req.body;
-    const userId = 5;
-    const tracks = [
-      '71BqAINEnezjQfxE4VuJfq',
-      '3CWq0pAKKTWb0K4yiglDc4',
-      '1Iq8oo9XkmmvCQiGOfORiz',
-      '7dJYggqjKo71KI9sLzqCs8',
-      '5KD6AEm19QnMbfWpfoOHMl',
-      '3UaaBFWIxrwDRc6pSisyuH',
-      '47oXF9VHCqabVcjd2gZBpa',
-      '4NioO5R9sHEZh4cGzMHyNt',
-      '6BuCMYELvszPH4LcD3LRGQ',
-      '5hQSXkFgbxjZo9uCwd11so',
-      '7bPWdJgx8vek7S5i5yAtvG',
-      '21B45csd0sMwX5VnAHc4BX',
-      '1xwAWUI6Dj0WGC3KiUPN0O',
-      '79DPYZ6x8FfzgSgPoPhpC3',
-      '5tyMJlMqaggzvuX7TtlrTe',
-      '4VL310GGX3b2ixL3sV0Je8',
-      '3MlEryrxCKZkcfX18ZLX96',
-      '3rWDp9tBPQR9z6U5YyRSK4',
-      '6T0sEnqjmHISIKwFETeeiP',
-      '4R2kfaDFhslZEMJqAFNpdd'
-    ] as Prisma.JsonArray;
+    const { userId, tracks } = req.body;
     const user = await prisma.user.findUnique({
       where: { id: userId },
       include: { topTracks: true },
@@ -282,7 +259,82 @@ app.post('/top-tracks/short-term', async (req: Request, res: Response) => {
           connect: { id: user?.topTracks?.id },
         },
         trackData: tracks,
-        date: '29.02.2024',
+        date: new Date().toLocaleDateString(),
+      },
+    });
+
+    res.status(201).json(createdTopTracks);
+  } catch (error) {
+    console.error('Error creating top tracks:', error);
+    res.status(500).json({ error: 'Failed to create top tracks' });
+  }
+});
+
+app.get('/top-tracks/medium-term', async (req: Request, res: Response) => {
+  const { userId } = req.body;
+  // const userId = 5;
+  try {
+    // Fetch top tracks from Spotify API
+    const spotifyResponseJson = await fetch('https://api.spotify.com/v1/me/top/tracks?time_range=medium_term&limit=30', {
+      headers: {
+        Authorization: `Bearer ${access_token}`,
+      },
+    });
+    const spotifyResponse = await spotifyResponseJson.json();
+    const spotifyTopTracks = spotifyResponse.items as Track[];
+
+    const user = await prisma.user.findUnique({
+      where: { id: userId },
+      include: { topTracks: true },
+    });
+    
+    const recentTopTracks = await prisma.mediumTermTracks.findMany({
+      where: {
+        topTracksId: user?.topTracks?.id
+      },
+      orderBy: {
+        id: 'desc'
+      },
+      take: 1
+    });
+    const recentTopTracksData = recentTopTracks[0]?.trackData as string[] || [];
+
+    const comparedTracks = spotifyTopTracks.map((spotifyTrack: Track, index) => {
+      const indexOfRecentTrack = recentTopTracksData?.indexOf(spotifyTrack.id);
+      if (indexOfRecentTrack === -1 || recentTopTracksData?.length === 0) {
+        return { change: 'new', ...spotifyTrack };
+      } else if (index === indexOfRecentTrack ) {
+        return { change: 'equal', ...spotifyTrack };
+      } else if (index < indexOfRecentTrack) {
+        return { change: 'up', ...spotifyTrack };
+      } else {
+        return { change: 'down', ...spotifyTrack };
+      }
+    });
+
+    res.status(200).json(comparedTracks);
+  } catch (error) {
+    console.error('Error fetching and comparing top tracks:', error);
+    res.status(500).json({ error: 'Failed to fetch and compare top tracks' });
+  }
+});
+
+app.post('/top-tracks/medium-term', async (req: Request, res: Response) => {
+  try {
+    const { userId, tracks } = req.body;
+    const user = await prisma.user.findUnique({
+      where: { id: userId },
+      include: { topTracks: true },
+    });
+
+    const createdTopTracks = await prisma.mediumTermTracks.create({
+      data: {
+        topTracks: {
+          // connect: { id: userId },
+          connect: { id: user?.topTracks?.id },
+        },
+        trackData: tracks,
+        date: new Date().toLocaleDateString(),
       },
     });
 
