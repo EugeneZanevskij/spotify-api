@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import { PrismaClient } from '@prisma/client';
 import { access_token } from './authController';
 import { getUser } from '../model/User';
+import { createLongTermTopTracks, createMediumTermTopTracks, createShortTermTopTracks, getLongTermTopTracksData, getMediumTermTopTracksData, getShortTermTopTracksData } from '../model/TopTracks';
 
 const prisma = new PrismaClient();
 
@@ -39,21 +40,11 @@ const getShortTermTopTracks = async (req: Request, res: Response) => {
     const spotifyTopTracks = spotifyResponse.items as Track[];
 
     const user = await getUser(userId);
-    
-    const recentTopTracks = await prisma.shortTermTracks.findMany({
-      where: {
-        topTracksId: user?.topTracks?.id
-      },
-      orderBy: {
-        id: 'desc'
-      },
-      take: 1
-    });
-    const recentTopTracksData = recentTopTracks[0].trackData as string[];
+    const recentTopTracksData = await getShortTermTopTracksData(user);
 
     const comparedTracks = spotifyTopTracks.map((spotifyTrack: Track, index) => {
       const indexOfRecentTrack = recentTopTracksData?.indexOf(spotifyTrack.id);
-      if (indexOfRecentTrack === -1) {
+      if (indexOfRecentTrack === -1 || recentTopTracksData?.length === 0) {
         return { change: 'new', ...spotifyTrack };
       } else if (index === indexOfRecentTrack ) {
         return { change: 'equal', ...spotifyTrack };
@@ -76,15 +67,7 @@ const postShortTermTopTracks = async (req: Request, res: Response) => {
     const { userId, tracks } = req.body;
     const user = await getUser(userId);
 
-    const createdTopTracks = await prisma.shortTermTracks.create({
-      data: {
-        topTracks: {
-          connect: { id: user?.topTracks?.id },
-        },
-        trackData: tracks,
-        date: new Date().toLocaleDateString(),
-      },
-    });
+    const createdTopTracks = await createShortTermTopTracks(user, tracks);
 
     res.status(201).json(createdTopTracks);
   } catch (error) {
@@ -105,17 +88,7 @@ const getMediumTermTopTracks = async (req: Request, res: Response) => {
     const spotifyTopTracks = spotifyResponse.items as Track[];
 
     const user = await getUser(userId);
-    
-    const recentTopTracks = await prisma.mediumTermTracks.findMany({
-      where: {
-        topTracksId: user?.topTracks?.id
-      },
-      orderBy: {
-        id: 'desc'
-      },
-      take: 1
-    });
-    const recentTopTracksData = recentTopTracks[0]?.trackData as string[] || [];
+    const recentTopTracksData = await getMediumTermTopTracksData(user);
 
     const comparedTracks = spotifyTopTracks.map((spotifyTrack: Track, index) => {
       const indexOfRecentTrack = recentTopTracksData?.indexOf(spotifyTrack.id);
@@ -142,15 +115,7 @@ const postMediumTermTopTracks = async (req: Request, res: Response) => {
     const { userId, tracks } = req.body;
     const user = await getUser(userId);
 
-    const createdTopTracks = await prisma.mediumTermTracks.create({
-      data: {
-        topTracks: {
-          connect: { id: user?.topTracks?.id },
-        },
-        trackData: tracks,
-        date: new Date().toLocaleDateString(),
-      },
-    });
+    const createdTopTracks = await createMediumTermTopTracks(user, tracks);
 
     res.status(201).json(createdTopTracks);
   } catch (error) {
@@ -171,17 +136,7 @@ const getLongTermTopTracks = async (req: Request, res: Response) => {
     const spotifyTopTracks = spotifyResponse.items as Track[];
 
     const user = await getUser(userId);
-    
-    const recentTopTracks = await prisma.longTermTracks.findMany({
-      where: {
-        topTracksId: user?.topTracks?.id
-      },
-      orderBy: {
-        id: 'desc'
-      },
-      take: 1
-    });
-    const recentTopTracksData = recentTopTracks[0]?.trackData as string[] || [];
+    const recentTopTracksData = await getLongTermTopTracksData(user);
 
     const comparedTracks = spotifyTopTracks.map((spotifyTrack: Track, index) => {
       const indexOfRecentTrack = recentTopTracksData?.indexOf(spotifyTrack.id);
@@ -208,15 +163,7 @@ const postLongTermTopTracks = async (req: Request, res: Response) => {
     const { userId, tracks } = req.body;
     const user = await getUser(userId);
 
-    const createdTopTracks = await prisma.longTermTracks.create({
-      data: {
-        topTracks: {
-          connect: { id: user?.topTracks?.id },
-        },
-        trackData: tracks,
-        date: new Date().toLocaleDateString(),
-      },
-    });
+    const createdTopTracks = await createLongTermTopTracks(user, tracks);
 
     res.status(201).json(createdTopTracks);
   } catch (error) {

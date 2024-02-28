@@ -1,5 +1,6 @@
 import express from 'express';
 import { getLongTermTopTracks, getMediumTermTopTracks, getShortTermTopTracks, postLongTermTopTracks, postMediumTermTopTracks, postShortTermTopTracks } from '../controllers/topTracksController';
+import { getUser } from '../model/User';
 
 const router = express.Router();
 

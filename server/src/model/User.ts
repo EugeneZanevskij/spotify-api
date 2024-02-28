@@ -22,14 +22,17 @@ export async function createOrSkipUser(email : string) {
 
 
 
-export async function getUser(userId : number) {
-  try{ 
-    const user = prisma.user.findUnique({
+export async function getUser(userId: number) {
+  try {
+    const user = await prisma.user.findUnique({
       where: { id: userId },
       include: { topTracks: true },
     });
+    if (!user) {
+      throw new Error(`User with id ${userId} not found`);
+    }
     return user;
   } catch (error) {
-    console.log(error);
+    throw error;
   }
 }
