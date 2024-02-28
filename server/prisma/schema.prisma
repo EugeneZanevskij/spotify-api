@@ -34,6 +34,8 @@ model ShortTermTracks {
   trackData  Json
   topTracks  TopTracks @relation(fields: [topTracksId], references: [id])
   topTracksId Int
+
+  @@unique([date, topTracksId])
 }
 
 model MediumTermTracks {
@@ -42,6 +44,8 @@ model MediumTermTracks {
   trackData  Json
   topTracks  TopTracks @relation(fields: [topTracksId], references: [id])
   topTracksId Int
+
+  @@unique([date, topTracksId])
 }
 
 model LongTermTracks {
@@ -50,4 +54,6 @@ model LongTermTracks {
   trackData  Json
   topTracks  TopTracks @relation(fields: [topTracksId], references: [id])
   topTracksId Int
+
+  @@unique([date, topTracksId])
 }
