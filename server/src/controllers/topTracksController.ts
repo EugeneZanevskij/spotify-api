@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import { PrismaClient } from '@prisma/client';
 import { access_token } from './authController';
+import { getUser } from '../model/User';
 
 const prisma = new PrismaClient();
 
@@ -37,10 +38,7 @@ const getShortTermTopTracks = async (req: Request, res: Response) => {
     const spotifyResponse = await spotifyResponseJson.json();
     const spotifyTopTracks = spotifyResponse.items as Track[];
 
-    const user = await prisma.user.findUnique({
-      where: { id: userId },
-      include: { topTracks: true },
-    });
+    const user = await getUser(userId);
     
     const recentTopTracks = await prisma.shortTermTracks.findMany({
       where: {
@@ -76,10 +74,7 @@ const getShortTermTopTracks = async (req: Request, res: Response) => {
 const postShortTermTopTracks = async (req: Request, res: Response) => {
   try {
     const { userId, tracks } = req.body;
-    const user = await prisma.user.findUnique({
-      where: { id: userId },
-      include: { topTracks: true },
-    });
+    const user = await getUser(userId);
 
     const createdTopTracks = await prisma.shortTermTracks.create({
       data: {
@@ -109,10 +104,7 @@ const getMediumTermTopTracks = async (req: Request, res: Response) => {
     const spotifyResponse = await spotifyResponseJson.json();
     const spotifyTopTracks = spotifyResponse.items as Track[];
 
-    const user = await prisma.user.findUnique({
-      where: { id: userId },
-      include: { topTracks: true },
-    });
+    const user = await getUser(userId);
     
     const recentTopTracks = await prisma.mediumTermTracks.findMany({
       where: {
@@ -148,10 +140,7 @@ const getMediumTermTopTracks = async (req: Request, res: Response) => {
 const postMediumTermTopTracks = async (req: Request, res: Response) => {
   try {
     const { userId, tracks } = req.body;
-    const user = await prisma.user.findUnique({
-      where: { id: userId },
-      include: { topTracks: true },
-    });
+    const user = await getUser(userId);
 
     const createdTopTracks = await prisma.mediumTermTracks.create({
       data: {
@@ -181,10 +170,7 @@ const getLongTermTopTracks = async (req: Request, res: Response) => {
     const spotifyResponse = await spotifyResponseJson.json();
     const spotifyTopTracks = spotifyResponse.items as Track[];
 
-    const user = await prisma.user.findUnique({
-      where: { id: userId },
-      include: { topTracks: true },
-    });
+    const user = await getUser(userId);
     
     const recentTopTracks = await prisma.longTermTracks.findMany({
       where: {
@@ -220,10 +206,7 @@ const getLongTermTopTracks = async (req: Request, res: Response) => {
 const postLongTermTopTracks = async (req: Request, res: Response) => {
   try {
     const { userId, tracks } = req.body;
-    const user = await prisma.user.findUnique({
-      where: { id: userId },
-      include: { topTracks: true },
-    });
+    const user = await getUser(userId);
 
     const createdTopTracks = await prisma.longTermTracks.create({
       data: {

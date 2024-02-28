@@ -1,8 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
-import { PrismaClient } from '@prisma/client';
 import querystring from "querystring";
-
-const prisma = new PrismaClient();
+import { createOrSkipUser } from '../model/User';
 
 export let access_token: string | null = null;
 export let expires_in: number | null = null;
@@ -10,7 +8,6 @@ export let refresh_token: string | null = null;
 
 const refreshAccessToken = async () => {
   if (!refresh_token) {
-    console.error('Refresh token is not available');
     return;
   }
 
@@ -43,8 +40,6 @@ const checkAccessToken = async (req: Request, res: Response, next: NextFunction)
   if (!access_token || !expires_in || Date.now() >= expires_in) {
     await refreshAccessToken();
   }
-
-  console.log(access_token, expires_in, Date.now());
   next();
 };
 
@@ -101,7 +96,6 @@ const callback = async (req: Request, res: Response) => {
       throw new Error('Failed to retrieve access token');
     }
   } catch (error) {
-    console.error('Error retrieving access token:', error);
     res.status(500).json({ error: 'Failed to retrieve access token' });
   }
 };
@@ -115,24 +109,6 @@ const getTokenId = async (req: Request, res: Response) => {
   const json = await profileResponse.json();
   const email = json.email as string;
 
-  async function createOrSkipUser(email : string) {
-    try{ 
-    const user = await prisma.user.upsert({
-      where: { email: email },
-      update: {},
-      create: {
-        email,
-        topTracks: {
-          create: {}
-        }
-      }
-    });
-    return user;
-    }
-    catch (error) {
-      console.log(error);
-    }
-  }
   const user = await createOrSkipUser(email);
   res.status(200).json(
     {
