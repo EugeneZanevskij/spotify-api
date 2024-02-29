@@ -9,7 +9,7 @@ export async function createOrSkipUser(email : string) {
       update: {},
       create: {
         email,
-        topTracks: {
+        topData: {
           create: {}
         }
       }
@@ -20,13 +20,11 @@ export async function createOrSkipUser(email : string) {
   }
 }
 
-
-
 export async function getUser(userId: number) {
   try {
     const user = await prisma.user.findUnique({
       where: { id: userId },
-      include: { topTracks: true },
+      include: { topData: true },
     });
     if (!user) {
       throw new Error(`User with id ${userId} not found`);

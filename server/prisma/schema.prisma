@@ -16,44 +16,35 @@ datasource db {
 model User {
   id              Int      @id @default(autoincrement())
   email        String      @unique
-  topTracks       TopTracks?
+  topData       TopData?
 }
 
-model TopTracks {
+model TopData {
   id        Int        @id @default(autoincrement())
-  shortTerm ShortTermTracks[]
-  mediumTerm MediumTermTracks[]
-  longTerm  LongTermTracks[]
+  topTracks topTracks[]
+  topArtists topArtists[]
   user      User      @relation(fields: [userId], references: [id])
   userId    Int        @unique
 }
 
-model ShortTermTracks {
+model topTracks {
   id         Int      @id @default(autoincrement())
   date       String
+  term       String
   trackData  Json
-  topTracks  TopTracks @relation(fields: [topTracksId], references: [id])
-  topTracksId Int
+  topData    TopData @relation(fields: [topDataId], references: [id])
+  topDataId  Int
 
-  @@unique([date, topTracksId])
+  @@unique([date, term, topDataId])
 }
 
-model MediumTermTracks {
+model topArtists {
   id         Int      @id @default(autoincrement())
   date       String
+  term       String
   trackData  Json
-  topTracks  TopTracks @relation(fields: [topTracksId], references: [id])
-  topTracksId Int
+  topData    TopData @relation(fields: [topDataId], references: [id])
+  topDataId  Int
 
-  @@unique([date, topTracksId])
-}
-
-model LongTermTracks {
-  id         Int      @id @default(autoincrement())
-  date       String
-  trackData  Json
-  topTracks  TopTracks @relation(fields: [topTracksId], references: [id])
-  topTracksId Int
-
-  @@unique([date, topTracksId])
+  @@unique([date, term, topDataId])
 }
