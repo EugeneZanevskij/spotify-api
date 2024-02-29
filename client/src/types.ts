@@ -93,6 +93,10 @@ export interface Track {
   is_local: boolean;
 }
 
+export interface TrackObjectFull extends Track {
+  change: string;
+}
+
 export interface RecentlyPlayedTrack {
   track: Track;
   played_at: string;
