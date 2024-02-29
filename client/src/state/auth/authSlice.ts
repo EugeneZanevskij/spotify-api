@@ -32,7 +32,7 @@ const authSlice = createSlice({
 export const getTokenAsync = createAsyncThunk(
   "auth/getTokenAsync",
   async () => {
-    const response = await fetch("http://localhost:7000/token");
+    const response = await fetch("http://localhost:7000/api/auth/token");
     const json = await response.json();
     return {
       accessToken: json.data.access_token,
