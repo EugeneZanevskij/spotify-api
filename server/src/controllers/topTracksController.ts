@@ -28,10 +28,10 @@ interface Track {
 type TimeRange = 'short_term' | 'medium_term' | 'long_term';
 
 const getTopTracks = async (req: Request, res: Response) => {
-  const { userId } = req.body;
-  const timeRange = req.params.timeRange as TimeRange;
+  const userId = Number(req.params.userId);
+  const timeRange = req.query.timeRange as TimeRange || 'short_term';
   try {
-    const spotifyResponseJson = await fetch(`https://api.spotify.com/v1/me/top/tracks?time_range=${timeRange}&limit=20`, {
+    const spotifyResponseJson = await fetch(`https://api.spotify.com/v1/me/top/tracks?time_range=${timeRange}&limit=30`, {
       headers: {
         Authorization: `Bearer ${access_token}`,
       },
@@ -64,8 +64,8 @@ const getTopTracks = async (req: Request, res: Response) => {
 
 const postTopTracks = async (req: Request, res: Response) => {
   try {
-    const { userId, tracks } = req.body;
-    const timeRange = req.params.timeRange as TimeRange;
+    const userId = Number(req.params.userId);
+    const { timeRange, tracks } = req.body;
     const user = await getUser(userId);
 
     const createdTopTracks = await createTopTracks(user, timeRange, tracks);

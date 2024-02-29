@@ -3,8 +3,8 @@ import { getTopTracks, postTopTracks } from '../controllers/topTracksController'
 
 const router = express.Router();
 
-router.get('/:timeRange', getTopTracks);
+router.get('/:userId', getTopTracks);
 
-router.post('/:timeRange', postTopTracks);
+router.post('/:userId', postTopTracks);
 
 export default router;
