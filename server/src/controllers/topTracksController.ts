@@ -58,7 +58,7 @@ const getTopTracks = async (req: Request, res: Response) => {
     res.status(200).json(comparedTracks);
   } catch (error) {
     console.error('Error fetching and comparing top tracks:', error);
-    res.status(500).json({ error: 'Failed to fetch and compare top tracks' });
+    res.status(500).json({ status: 500, message: 'Failed to fetch and compare top tracks' });
   }
 };
 

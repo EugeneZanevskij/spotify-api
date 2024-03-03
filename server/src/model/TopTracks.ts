@@ -10,7 +10,8 @@ export async function getTopTracksData(user: User, timeRange: TimeRange) {
     const recentTopTracks = await prisma.topTracks.findMany({
       where: {
         topDataId: user.topData?.id,
-        term: timeRange
+        term: timeRange,
+        date: {not: new Date().toLocaleDateString()}
       },
       orderBy: {
         id: 'desc'
