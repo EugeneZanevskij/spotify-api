@@ -42,7 +42,7 @@ model topArtists {
   id         Int      @id @default(autoincrement())
   date       String
   term       String
-  trackData  Json
+  artistData  Json
   topData    TopData @relation(fields: [topDataId], references: [id])
   topDataId  Int
 
