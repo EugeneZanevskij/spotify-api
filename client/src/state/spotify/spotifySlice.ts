@@ -172,6 +172,7 @@ export const getUserProfileAsync = createAsyncThunk(
 export const getTopTracksAsync = createAsyncThunk(
   "spotify/getTopTracksAsync",
   async ({ userId, timeRange }: { userId: number; timeRange: string }) => {
+    if (!userId) return { status: 400, message: "User ID is required" };
     const response = await fetch(
       `http://localhost:7000/api/top-tracks/${userId}?timeRange=${timeRange}`,
     );
