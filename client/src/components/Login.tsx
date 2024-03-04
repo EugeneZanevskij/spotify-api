@@ -10,7 +10,9 @@ const LoginLink = styled.a`
 `;
 
 const Login = () => {
-  return <LoginLink href="http://localhost:7000/login">Login</LoginLink>;
+  return (
+    <LoginLink href="http://localhost:7000/api/auth/login">Login</LoginLink>
+  );
 };
 
 export default Login;

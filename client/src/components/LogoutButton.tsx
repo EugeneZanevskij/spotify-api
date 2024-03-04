@@ -1,4 +1,3 @@
-import React from "react";
 import styled from "styled-components";
 
 const Button = styled.button`
@@ -13,7 +12,7 @@ const Button = styled.button`
 const LogoutButton = () => {
   const handleLogout = async () => {
     try {
-      const response = await fetch("http://localhost:7000/logout");
+      const response = await fetch("http://localhost:7000/api/auth/logout");
       const data = await response.json();
       if (data.result === "SUCCESS") {
         alert("User logout operation success.");
