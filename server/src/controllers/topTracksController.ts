@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { access_token } from './authController';
 import { getUser } from '../model/User';
-import { createTopTracks, getTopTracksData } from '../model/TopTracks';
+import { createTopTracks, getTopTracksData, checkTopTracks } from '../model/TopTracks';
 
 interface Track {
   available_markets: string[];
@@ -57,7 +57,6 @@ const getTopTracks = async (req: Request, res: Response) => {
 
     res.status(200).json(comparedTracks);
   } catch (error) {
-    console.error('Error fetching and comparing top tracks:', error);
     res.status(500).json({ status: 500, message: 'Failed to fetch and compare top tracks' });
   }
 };
@@ -67,10 +66,13 @@ const postTopTracks = async (req: Request, res: Response) => {
     const userId = Number(req.params.userId);
     const { timeRange, tracks } = req.body;
     const user = await getUser(userId);
-
-    const createdTopTracks = await createTopTracks(user, timeRange, tracks);
-
-    res.status(201).json(createdTopTracks);
+    const isTopTracksExist = await checkTopTracks(user, timeRange);
+    if (isTopTracksExist) {
+      res.status(400).json({ error: 'Top tracks already exist' });
+    } else {
+      const createdTopTracks = await createTopTracks(user, timeRange, tracks);
+      res.status(201).json(createdTopTracks);
+    }
   } catch (error) {
     console.error('Error creating top tracks:', error);
     res.status(500).json({ error: 'Failed to create top tracks' });

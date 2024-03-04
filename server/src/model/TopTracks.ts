@@ -13,9 +13,7 @@ export async function getTopTracksData(user: User, timeRange: TimeRange) {
         term: timeRange,
         date: {not: new Date().toLocaleDateString()}
       },
-      orderBy: {
-        id: 'desc'
-      },
+      orderBy: { id: 'desc' },
       take: 1
     });
     const recentTopTracksData = recentTopTracks[0]?.trackData as string[];
@@ -24,6 +22,23 @@ export async function getTopTracksData(user: User, timeRange: TimeRange) {
     return [];
   }
 };
+
+export async function checkTopTracks(user: User, timeRange: TimeRange) {
+  try {
+    const topTracks = await prisma.topTracks.findMany({
+      where: {
+        topDataId: user.topData?.id,
+        term: timeRange,
+        date: new Date().toLocaleDateString()
+      },
+      take: 1
+    });
+    return topTracks.length > 0;
+  }
+  catch(error){
+    return false;
+  }
+}
 
 export async function createTopTracks(user: User, timeRange: TimeRange, topTracksData: string[]) {
   try {
@@ -39,6 +54,6 @@ export async function createTopTracks(user: User, timeRange: TimeRange, topTrack
     });
     return createdTopTracks;
   } catch(error){
-    console.log(error);
+    throw error;
   }
 };
