@@ -17,6 +17,7 @@ import {
   SearchInputs,
 } from "./styles";
 import useSearchFromRedux from "./useSearchFromRedux";
+import { colors } from "../../constants";
 
 function SearchPage() {
   const [searchType, setSearchType] = useState<SearchType>("track");
@@ -48,7 +49,7 @@ function SearchPage() {
     <SearchPageWrapper>
       <BoldText fontSize="1.25em">
         Spotify Search for
-        <BoldText color="#1DB954" fontSize="1.5em">
+        <BoldText color={colors.topLinkColor} fontSize="1.5em">
           {searchType}
         </BoldText>
       </BoldText>

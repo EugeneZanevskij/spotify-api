@@ -3,13 +3,14 @@ import { PageText } from "../helpers/PageText";
 import styled from "styled-components";
 import { Album } from "../types";
 import SpotifyLink from "./SpotifyLink";
+import { colors } from "../constants";
 
 const SearchResultItem = styled.div`
   padding: 0.5rem;
   display: flex;
   flex-direction: column;
   align-items: center;
-  border: 1px solid #ccc;
+  border: 1px solid ${colors.borderColor};
   border-radius: 0.25rem;
   width: min-content;
   text-align: center;
@@ -17,7 +18,7 @@ const SearchResultItem = styled.div`
 `;
 
 const Text = styled(PageText)`
-  color: ${(props) => (props.color ? props.color : "#131A22")};
+  color: ${(props) => (props.color ? props.color : colors.textColor)};
   font-size: ${(props) => (props.fontSize ? props.fontSize : ".9em")};
 `;
 

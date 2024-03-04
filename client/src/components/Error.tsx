@@ -1,11 +1,12 @@
 import styled from "styled-components";
 import { TError } from "../types";
 import Login from "./Login";
+import { colors } from "../constants";
 
 const ErrorContainer = styled.div`
-  border: 2px solid #ff0000;
+  border: 2px solid ${colors.errorColor};
   padding: 1rem;
-  background-color: #ffeeee;
+  background-color: ${colors.bgColor};
   border-radius: 0.25rem;
   display: flex;
   flex-direction: column;
@@ -18,7 +19,7 @@ const ErrorStatus = styled.p`
 `;
 
 const ErrorMessage = styled.p`
-  color: #ff0000;
+  color: ${colors.errorColor};
 `;
 
 const Error: React.FC<{ error: TError }> = ({ error }: { error: TError }) => {

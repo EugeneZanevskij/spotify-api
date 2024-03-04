@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import { ItemWrapper } from "../../helpers/ItemWrapper";
 import { PageText } from "../../helpers/PageText";
+import { colors } from "../../constants";
 
 const TrackItem = styled.div`
   display: grid;
@@ -27,7 +28,7 @@ const TrackImage = styled.img`
 `;
 
 const Text = styled(PageText)`
-  color: ${(props) => (props.color ? props.color : "#131A22")};
+  color: ${(props) => (props.color ? props.color : colors.textColor)};
   font-size: ${(props) => (props.fontSize ? props.fontSize : ".9em")};
 `;
 

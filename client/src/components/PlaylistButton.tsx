@@ -4,10 +4,11 @@ import { Track } from "../types";
 import SpotifyLink from "./SpotifyLink";
 import { useSelector } from "react-redux";
 import { RootState } from "../state/store";
+import { colors } from "../constants";
 
 const Button = styled.button`
-  background-color: #007bff;
-  color: #fff;
+  background-color: ${colors.blueColor};
+  color: ${colors.bgColor};
   padding: 0.5rem 1rem;
   border: none;
   border-radius: 0.25rem;

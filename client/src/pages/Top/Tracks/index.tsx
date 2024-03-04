@@ -20,7 +20,6 @@ const TopTracksPage = () => {
     setSearchParams({ time_range: newTimeRange });
   };
 
-  // TODO: create constant for buttonsData and create hook for handling button's click and component for buttons
   const buttonsData = [
     { label: "4 weeks", value: "short_term" },
     { label: "6 months", value: "medium_term" },

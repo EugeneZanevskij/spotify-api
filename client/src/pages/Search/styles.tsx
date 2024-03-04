@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { PageText } from "../../helpers/PageText";
+import { colors } from "../../constants";
 
 const SearchPageWrapper = styled.div`
   display: flex;
@@ -15,8 +16,8 @@ const ButtonContainer = styled.div`
 `;
 
 const StyledButton = styled.button`
-  background-color: #8abd81;
-  color: #333;
+  background-color: ${colors.secondaryColor};
+  color: ${colors.textColor};
   font-size: 1rem;
   font-weight: bold;
   padding: 0.5rem 1rem;
@@ -25,7 +26,7 @@ const StyledButton = styled.button`
   cursor: pointer;
 
   &:hover {
-    background-color: #cbe669;
+    background-color: ${colors.yellowishColor};
   }
 `;
 
@@ -50,14 +51,14 @@ const SearchInput = styled.input`
 const SearchButton = styled.button`
   padding: 0.75rem 1.25rem;
   margin-left: 1rem;
-  background-color: #1db954;
+  background-color: ${colors.topLinkColor};
   color: white;
   border: none;
   border-radius: 0.25rem;
   cursor: pointer;
 
   &:hover {
-    background-color: #198c3e;
+    background-color: ${colors.primaryColor};
   }
 `;
 
@@ -70,7 +71,7 @@ const SearchResults = styled.div`
 `;
 
 const Text = styled(PageText)`
-  color: ${(props) => (props.color ? props.color : "#131A22")};
+  color: ${(props) => (props.color ? props.color : colors.textColor)};
   font-size: ${(props) => (props.fontSize ? props.fontSize : ".9em")};
 `;
 

@@ -1,12 +1,13 @@
 import styled from "styled-components";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { Link } from "react-router-dom";
+import { colors } from "../../constants";
 
 export const NavbarContainer = styled.nav`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: rgb(242, 242, 242);
+  background-color: ${colors.bgColor};
   padding: 1rem 1.5rem;
 `;
 
@@ -15,7 +16,7 @@ export const Logo = styled.img`
   cursor: pointer;
 
   &:hover {
-    border: 1px solid #ffffff;
+    border: 1px solid ${colors.bgColor};
     border-radius: 0.2em;
   }
 `;
@@ -27,7 +28,7 @@ export const NavLogo = styled(Link)`
   align-items: center;
   gap: 0.5rem;
   text-decoration: none;
-  color: #000000;
+  color: ${colors.textColor};
 `;
 
 export const NavLinks = styled.ul<{ open: boolean }>`
@@ -51,17 +52,17 @@ export const NavItem = styled.li`
 
   @media (max-width: 768px) {
     padding: 10px;
-    background-color: #c4edc0;
+    background-color: ${colors.secondaryColor};
 
     &:hover {
-      background-color: #2d8d2b;
-      color: #000000;
+      background-color: ${colors.topLinkColor};
+      color: ${colors.textColor};
     }
   }
 `;
 
 export const NavLink = styled(Link)`
-  color: #000000;
+  color: ${colors.textColor};
   text-decoration: none;
   font-weight: bold;
 

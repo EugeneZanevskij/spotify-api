@@ -1,11 +1,12 @@
 import styled from "styled-components";
+import { colors } from "../constants";
 
 const LoginLink = styled.a`
   text-decoration: none;
-  color: #fff;
+  color: ${colors.bgColor};
   font-weight: bold;
   padding: 0.5rem 1rem;
-  background-color: #10551e;
+  background-color: ${colors.primaryColor};
   border-radius: 1em;
 `;
 

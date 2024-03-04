@@ -1,11 +1,12 @@
 import styled from "styled-components";
 import { PageText } from "../helpers/PageText";
+import { colors } from "../constants";
 
 const FooterContainer = styled.footer`
   display: flex;
   flex-direction: column;
-  background-color: #222;
-  color: #fff;
+  background-color: ${colors.textColor};
+  color: ${colors.bgColor};
   padding: 1rem;
   text-align: center;
 `;

@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { colors } from "../../../constants";
 
 const TopTracksContainer = styled.div`
   display: flex;
@@ -9,21 +10,22 @@ const TopTracksContainer = styled.div`
 `;
 
 const TopTracksTitle = styled.h1`
-  font-size: 24px;
-  color: #333;
-  margin-bottom: 16px;
+  font-size: 1.5rem;
+  color: ${colors.textColor};
+  margin-bottom: 1rem;
 `;
 
 const ButtonsContainer = styled.div`
-  margin-top: 16px;
+  margin-top: 1rem;
 `;
 
 const TimeRangeButton = styled.button<{ active: boolean }>`
-  background-color: ${(props) => (props.active ? "#333" : "#ccc")};
-  color: ${(props) => (props.active ? "#fff" : "#333")};
+  background-color: ${(props) =>
+    props.active ? colors.textColor : colors.borderColor};
+  color: ${(props) => (props.active ? colors.bgColor : colors.textColor)};
   border: none;
-  padding: 8px 16px;
-  margin-right: 8px;
+  padding: 0.5rem 1rem;
+  margin-right: 0.5rem;
   cursor: pointer;
 `;
 

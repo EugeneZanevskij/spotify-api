@@ -45,25 +45,38 @@ export const navLinks = [
   { name: "Recently Played", path: "/recently-played" },
 ];
 
+export const colors = {
+  primaryColor: "#10551e",
+  secondaryColor: "#8abd81",
+  tertiaryColor: "#bee5be",
+  topLinkColor: "#179800",
+  yellowishColor: "#cbe669",
+  textColor: "#131A22",
+  borderColor: "#ccc",
+  bgColor: "#fff",
+  errorColor: "#ff0000",
+  blueColor: "#007bff",
+};
+
 export const topChanges = [
   {
     value: "new",
     icon: MdFiberNew,
-    color: "blue",
+    color: colors.blueColor,
   },
   {
     value: "equal",
     icon: FaEquals,
-    color: "gray",
+    color: colors.borderColor,
   },
   {
     value: "up",
     icon: FaAngleDoubleUp,
-    color: "green",
+    color: colors.primaryColor,
   },
   {
     value: "down",
     icon: FaAngleDoubleDown,
-    color: "red",
+    color: colors.errorColor,
   },
 ];

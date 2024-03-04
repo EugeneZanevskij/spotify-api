@@ -2,6 +2,7 @@ import styled from "styled-components";
 import { ItemWrapper } from "../../helpers/ItemWrapper";
 import { PageText } from "../../helpers/PageText";
 import { Link } from "react-router-dom";
+import { colors } from "../../constants";
 
 export const HomeContainer = styled.div`
   display: flex;
@@ -20,7 +21,7 @@ export const SpotiContainer = styled.div`
   width: 100%;
   border-radius: 2rem;
   max-width: 25rem;
-  background-color: #bee5be;
+  background-color: ${colors.tertiaryColor};
 `;
 
 export const Wrapper = styled(ItemWrapper)`
@@ -32,10 +33,7 @@ export const Wrapper = styled(ItemWrapper)`
 `;
 
 export const Text = styled(PageText)`
-  color: ${(props) =>
-    props.color
-      ? props.color
-      : "#131A22"}; // TODO: I would use vars for colors etc
+  color: ${(props) => (props.color ? props.color : colors.textColor)};
   font-size: ${(props) => (props.fontSize ? props.fontSize : ".9em")};
   text-align: ${(props) => (props.textAlign ? props.textAlign : "center")};
 `;
@@ -46,8 +44,8 @@ export const BoldText = styled(Text)`
 `;
 
 export const TopLink = styled(Link)`
-  background-color: #179800;
-  color: #fff;
+  background-color: ${colors.topLinkColor};
+  color: ${colors.bgColor};
   text-decoration: none;
   font-size: 1rem;
   font-weight: bold;
@@ -57,9 +55,9 @@ export const TopLink = styled(Link)`
   cursor: pointer;
 
   &:hover {
-    background-color: #cbe669;
-    color: #333;
-    border: #179800 1px solid;
+    background-color: ${colors.yellowishColor};
+    color: ${colors.textColor};
+    border: ${colors.topLinkColor} 1px solid;
   }
 `;
 
