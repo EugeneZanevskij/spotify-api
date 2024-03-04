@@ -6,11 +6,12 @@ import {
   RecentlyPlayedTrack,
   UserProfile,
   TError,
+  TrackObjectFull,
 } from "../../types";
 
 interface SpotifyState {
   user: UserProfile | null;
-  topTracks: Track[] | null;
+  topTracks: TrackObjectFull[] | null;
   topArtists: Artist[] | null;
   tracks: Track[] | null;
   artists: Artist[] | null;
@@ -62,7 +63,7 @@ const spotifySlice = createSlice({
       })
       .addCase(
         getTopTracksAsync.fulfilled,
-        (state, action: PayloadAction<Track[] | TError>) => {
+        (state, action: PayloadAction<TrackObjectFull[] | TError>) => {
           if ("message" in action.payload) {
             state.error = action.payload;
           } else {
@@ -170,23 +171,12 @@ export const getUserProfileAsync = createAsyncThunk(
 
 export const getTopTracksAsync = createAsyncThunk(
   "spotify/getTopTracksAsync",
-  async ({
-    accessToken,
-    timeRange,
-  }: {
-    accessToken: string;
-    timeRange: string;
-  }) => {
+  async ({ userId, timeRange }: { userId: number; timeRange: string }) => {
     const response = await fetch(
-      `https://api.spotify.com/v1/me/top/tracks?time_range=${timeRange}&limit=30`,
-      {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      },
+      `http://localhost:7000/api/top-tracks/${userId}?timeRange=${timeRange}`,
     );
     const json = await response.json();
-    return response.ok ? (json.items as Track[]) : (json.error as TError);
+    return response.ok ? (json as TrackObjectFull[]) : (json as TError);
   },
 );
 
