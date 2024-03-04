@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { colors } from "../constants";
+import { logoutFromApp } from "../api";
 
 const Button = styled.button`
   background-color: ${colors.errorColor};
@@ -13,13 +14,12 @@ const Button = styled.button`
 const LogoutButton = () => {
   const handleLogout = async () => {
     try {
-      const response = await fetch("http://localhost:7000/api/auth/logout");
-      const data = await response.json();
-      if (data.result === "SUCCESS") {
+      const { result, message } = await logoutFromApp();
+      if (result === "SUCCESS") {
         alert("User logout operation success.");
         window.location.href = "/";
       } else {
-        alert("User logout operation error (message: " + data.message + ").");
+        alert("User logout operation error (message: " + message + ").");
       }
     } catch (error) {
       alert("Error logging out" + error);

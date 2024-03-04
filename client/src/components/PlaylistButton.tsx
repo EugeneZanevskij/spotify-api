@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { Track } from "../types";
+import { TrackObjectFull } from "../types";
 import SpotifyLink from "./SpotifyLink";
 import { useSelector } from "react-redux";
 import { RootState } from "../state/store";
 import { colors } from "../constants";
+import { addTracksToPlaylist, createPlaylist, fetchProfileId } from "../api";
 
 const Button = styled.button`
   background-color: ${colors.blueColor};
@@ -16,30 +17,16 @@ const Button = styled.button`
   cursor: pointer;
 `;
 
-const PlaylistButton: React.FC<{ tracks: Track[]; timeRange: string }> = ({
-  tracks,
-  timeRange,
-}) => {
+const PlaylistButton: React.FC<{
+  tracks: TrackObjectFull[];
+  timeRange: string;
+}> = ({ tracks, timeRange }) => {
   const [profileId, setProfileId] = useState<string>("");
-  const [playlistUrl, setPlaylistUrl] = useState<string>("");
+  const [playlistLink, setPlaylistLink] = useState<string>("");
   const accessToken = useSelector((state: RootState) => state.auth.accessToken);
 
   useEffect(() => {
-    const fetchProfile = async () => {
-      try {
-        const response = await fetch("https://api.spotify.com/v1/me", {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        });
-        const data = await response.json();
-        setProfileId(data.id);
-      } catch (error) {
-        console.error("Error fetching user profile:", error);
-      }
-    };
-
-    fetchProfile();
+    fetchProfileId(accessToken).then((id) => setProfileId(id));
   }, [accessToken]);
 
   const date = () => {
@@ -48,40 +35,21 @@ const PlaylistButton: React.FC<{ tracks: Track[]; timeRange: string }> = ({
     return `${date.getDate()} ${month} ${date.getFullYear()}`;
   };
 
-  // TODO: create API for handling some functions
   const handleCreatePlaylist = async () => {
-    const response = await fetch(
-      "https://api.spotify.com/v1/users/" + profileId + "/playlists",
-      {
-        method: "POST",
-        body: JSON.stringify({
-          name: `${timeRange} Top Tracks dated ${date()}`,
-        }),
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      },
+    const { playlistId, playlistUrl } = await createPlaylist(
+      accessToken,
+      profileId,
+      timeRange,
+      date(),
     );
-    const data = await response.json();
-    const playlistId = data.id;
-    setPlaylistUrl(data.external_urls.spotify);
-    const playlistResponse = await fetch(
-      "https://api.spotify.com/v1/playlists/" + playlistId + "/tracks",
-      {
-        method: "POST",
-        body: JSON.stringify({ uris: tracks.map((track) => track.uri) }),
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      },
-    );
-    console.log(playlistResponse);
+    setPlaylistLink(playlistUrl);
+    await addTracksToPlaylist(accessToken, playlistId, tracks);
   };
 
   return (
     <>
       <Button onClick={handleCreatePlaylist}>Create Playlist</Button>
-      {playlistUrl && <SpotifyLink url={playlistUrl} />}
+      {playlistLink && <SpotifyLink url={playlistLink} />}
     </>
   );
 };
