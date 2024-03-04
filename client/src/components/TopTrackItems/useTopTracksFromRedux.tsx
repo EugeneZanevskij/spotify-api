@@ -5,15 +5,15 @@ import { RootState, AppDispatch } from "../../state/store";
 import { TimeRange } from "../../types";
 
 const useTopTracksFromRedux = (timeRange: TimeRange) => {
-  const accessToken = useSelector((state: RootState) => state.auth.accessToken);
+  const userId = useSelector((state: RootState) => state.auth.id);
   const dispatch = useDispatch<AppDispatch>();
   const topTracks = useSelector((state: RootState) => state.spotify.topTracks);
   const loading = useSelector((state: RootState) => state.spotify.loading);
   const error = useSelector((state: RootState) => state.spotify.error);
 
   useEffect(() => {
-    dispatch(getTopTracksAsync({ accessToken, timeRange }));
-  }, [timeRange, accessToken, dispatch]);
+    dispatch(getTopTracksAsync({ userId, timeRange }));
+  }, [timeRange, userId, dispatch]);
 
   return { topTracks, loading, error };
 };
