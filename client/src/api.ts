@@ -1,4 +1,4 @@
-import { TimeRange, TrackObjectFull } from "./types";
+import { ArtistObjectFull, TimeRange, TrackObjectFull } from "./types";
 
 export async function fetchProfileId(accessToken: string) {
   const response = await fetch("https://api.spotify.com/v1/me", {
@@ -78,3 +78,26 @@ export async function logoutFromApp() {
   const data = await response.json();
   return { result: data.result, message: data.message };
 }
+
+export const postTopArtistsToDB = async ({
+  userId,
+  timeRange,
+  topArtists,
+}: {
+  userId: number;
+  timeRange: TimeRange;
+  topArtists: ArtistObjectFull[];
+}) => {
+  try {
+    const topTracksData = topArtists.map((topArtist) => topArtist.id);
+    await fetch(`http://localhost:7000/api/top-artists/${userId}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ userId, timeRange, artists: topTracksData }),
+    });
+  } catch (error) {
+    console.error("Error posting top tracks to the database:", error);
+  }
+};

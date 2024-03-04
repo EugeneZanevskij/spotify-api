@@ -40,6 +40,10 @@ export interface Artist {
   uri: string;
 }
 
+export interface ArtistObjectFull extends Artist {
+  change: string;
+}
+
 export interface Album {
   album_type: string;
   total_tracks: number;
