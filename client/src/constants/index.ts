@@ -2,6 +2,8 @@ import { FaSearch } from "react-icons/fa";
 import { FaRankingStar, FaRepeat } from "react-icons/fa6";
 import { BiSolidPlaylist } from "react-icons/bi";
 import { IconType } from "react-icons";
+import { MdFiberNew } from "react-icons/md";
+import { FaEquals, FaAngleDoubleDown, FaAngleDoubleUp } from "react-icons/fa";
 
 interface homepageProp {
   title: string;
@@ -41,4 +43,27 @@ export const navLinks = [
   { name: "Top Tracks", path: "/top/tracks" },
   { name: "Top Artists", path: "/top/artists" },
   { name: "Recently Played", path: "/recently-played" },
+];
+
+export const topChanges = [
+  {
+    value: "new",
+    icon: MdFiberNew,
+    color: "blue",
+  },
+  {
+    value: "equal",
+    icon: FaEquals,
+    color: "gray",
+  },
+  {
+    value: "up",
+    icon: FaAngleDoubleUp,
+    color: "green",
+  },
+  {
+    value: "down",
+    icon: FaAngleDoubleDown,
+    color: "red",
+  },
 ];

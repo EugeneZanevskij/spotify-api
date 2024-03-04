@@ -4,7 +4,7 @@ import { PageText } from "../../helpers/PageText";
 
 const TrackItem = styled.div`
   display: grid;
-  grid-template-columns: 6rem 1fr 3rem;
+  grid-template-columns: 8rem 1fr 3rem;
   align-items: center;
   margin-bottom: 8px;
   width: 100%;
