@@ -13,7 +13,9 @@ const useTopTracksFromRedux = (timeRange: TimeRange) => {
   const error = useSelector((state: RootState) => state.spotify.error);
 
   useEffect(() => {
-    dispatch(getTopTracksAsync({ userId, timeRange }));
+    if (userId) {
+      dispatch(getTopTracksAsync({ userId, timeRange }));
+    }
   }, [timeRange, userId, dispatch]);
 
   useEffect(() => {

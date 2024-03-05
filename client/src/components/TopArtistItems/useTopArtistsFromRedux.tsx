@@ -15,7 +15,9 @@ const useTopArtistsFromRedux = (timeRange: TimeRange) => {
   const error = useSelector((state: RootState) => state.spotify.error);
 
   useEffect(() => {
-    dispatch(getTopArtistsAsync({ userId, timeRange }));
+    if (userId) {
+      dispatch(getTopArtistsAsync({ userId, timeRange }));
+    }
   }, [timeRange, userId, dispatch]);
 
   useEffect(() => {
