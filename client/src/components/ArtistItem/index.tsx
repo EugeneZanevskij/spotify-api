@@ -1,5 +1,5 @@
 import React from "react";
-import { Artist } from "../../types";
+import { ArtistObjectFull } from "../../types";
 import {
   ArtistContainer,
   Text,
@@ -8,8 +8,9 @@ import {
   BoldText,
 } from "./styles";
 import SpotifyLink from "../SpotifyLink";
+import { topChanges } from "../../constants";
 
-const ArtistItem: React.FC<{ artist: Artist; index?: number }> = ({
+const ArtistItem: React.FC<{ artist: ArtistObjectFull; index?: number }> = ({
   artist,
   index,
 }) => {
@@ -22,10 +23,17 @@ const ArtistItem: React.FC<{ artist: Artist; index?: number }> = ({
     return followers.toString();
   };
 
+  const getIcon = (change: string) => {
+    const topChange =
+      topChanges.find((topChange) => change === topChange.value) ||
+      topChanges[0];
+    return <topChange.icon size={18} color={topChange.color} />;
+  };
+
   return (
     <ArtistContainer>
       <BoldText fontSize="1.2em">
-        {index} {artist.name}
+        {index && getIcon(artist.change)} {index} {artist.name}
       </BoldText>
       {artist.followers.total ? (
         <Text>{getFollowers(artist.followers.total)}</Text>
