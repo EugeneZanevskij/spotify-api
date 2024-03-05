@@ -19,10 +19,11 @@ const ButtonsContainer = styled.div`
   margin-top: 1rem;
 `;
 
-const TimeRangeButton = styled.button<{ active: boolean }>`
+const TimeRangeButton = styled.button<{ active: string }>`
   background-color: ${(props) =>
-    props.active ? colors.textColor : colors.borderColor};
-  color: ${(props) => (props.active ? colors.bgColor : colors.textColor)};
+    props.active === "true" ? colors.textColor : colors.borderColor};
+  color: ${(props) =>
+    props.active === "true" ? colors.bgColor : colors.textColor};
   border: none;
   padding: 0.5rem 1rem;
   margin-right: 0.5rem;

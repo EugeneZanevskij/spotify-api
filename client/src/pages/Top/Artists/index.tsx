@@ -40,7 +40,7 @@ const TopArtistsPage = () => {
         {buttonsData.map((button) => (
           <TimeRangeButton
             key={button.value}
-            active={timeRange === button.value}
+            active={timeRange === button.value ? "true" : "false"}
             onClick={() => handleTimeRangeChange(button.value)}
           >
             {button.label}

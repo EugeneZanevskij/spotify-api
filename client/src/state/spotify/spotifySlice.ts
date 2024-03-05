@@ -189,7 +189,6 @@ export const getTopArtistsAsync = createAsyncThunk(
       `http://localhost:7000/api/top-artists/${userId}?timeRange=${timeRange}`,
     );
     const json = await response.json();
-    console.log(json);
     return response.ok ? (json as ArtistObjectFull[]) : (json as TError);
   },
 );
