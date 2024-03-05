@@ -1,5 +1,6 @@
 import { FaSearch } from "react-icons/fa";
 import { FaRankingStar, FaRepeat } from "react-icons/fa6";
+import { CgArrowsExchangeAltV } from "react-icons/cg";
 import { BiSolidPlaylist } from "react-icons/bi";
 import { IconType } from "react-icons";
 import { MdFiberNew } from "react-icons/md";
@@ -13,16 +14,21 @@ interface homepageProp {
 
 export const homepageProps: homepageProp[] = [
   {
-    title: "Search",
-    description:
-      "Search for tracks, albums or artists by name switching between 3 categories for search.",
-    icon: FaSearch,
-  },
-  {
     title: "Your own ranking",
     description:
       "View your most listened tracks, artists and switch between 3 different time periods (4 weeks, 6 months and All time).",
     icon: FaRankingStar,
+  },
+  {
+    title: "View changes",
+    description: "View how your top tracks, artists have changed.",
+    icon: CgArrowsExchangeAltV,
+  },
+  {
+    title: "Search",
+    description:
+      "Search for tracks, albums or artists by name switching between 3 categories for search.",
+    icon: FaSearch,
   },
   {
     title: "Create playlist",
