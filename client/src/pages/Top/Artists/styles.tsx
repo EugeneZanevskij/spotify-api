@@ -30,19 +30,4 @@ const TimeRangeButton = styled.button<{ active: boolean }>`
   cursor: pointer;
 `;
 
-const ArtistsContainer = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-around;
-  gap: 1.5rem;
-  margin-top: 1.5rem;
-`;
-
-export {
-  TopContainer,
-  TopTitle,
-  ButtonsContainer,
-  TimeRangeButton,
-  ArtistsContainer,
-};
+export { TopContainer, TopTitle, ButtonsContainer, TimeRangeButton };

@@ -1,9 +1,9 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getTopArtistsAsync } from "../../../state/spotify/spotifySlice";
-import { RootState, AppDispatch } from "../../../state/store";
-import { TimeRange } from "../../../types";
-import { postTopArtistsToDB } from "../../../api";
+import { getTopArtistsAsync } from "../../state/spotify/spotifySlice";
+import { RootState, AppDispatch } from "../../state/store";
+import { TimeRange } from "../../types";
+import { postTopArtistsToDB } from "../../api";
 
 const useTopArtistsFromRedux = (timeRange: TimeRange) => {
   const userId = useSelector((state: RootState) => state.auth.id);
