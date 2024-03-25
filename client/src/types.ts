@@ -3,11 +3,11 @@ export interface UserProfile {
   display_name: string;
   email: string;
   explicit_content: {
-      filter_enabled: boolean,
-      filter_locked: boolean
-  },
-  external_urls: { spotify: string; };
-  followers: { href: string; total: number; };
+    filter_enabled: boolean;
+    filter_locked: boolean;
+  };
+  external_urls: { spotify: string };
+  followers: { href: string; total: number };
   href: string;
   id: string;
   images: Image[];
@@ -38,6 +38,10 @@ export interface Artist {
   popularity: number;
   type: string;
   uri: string;
+}
+
+export interface ArtistObjectFull extends Artist {
+  change: string;
 }
 
 export interface Album {
@@ -91,4 +95,22 @@ export interface Track {
   type: string;
   uri: string;
   is_local: boolean;
+}
+
+export interface TrackObjectFull extends Track {
+  change: string;
+}
+
+export interface RecentlyPlayedTrack {
+  track: Track;
+  played_at: string;
+}
+
+export type TimeRange = "short_term" | "medium_term" | "long_term";
+
+export type SearchType = "album" | "artist" | "track";
+
+export interface TError {
+  status: number;
+  message: string;
 }
